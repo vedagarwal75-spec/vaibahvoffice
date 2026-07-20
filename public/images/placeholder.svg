@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Shubham Trading Company">
+  <rect width="400" height="300" fill="#ede6d5"/>
+  <rect x="0" y="0" width="400" height="300" fill="url(#g)" opacity="0.06"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#162d1f"/>
+      <stop offset="1" stop-color="#b85c38"/>
+    </linearGradient>
+  </defs>
+  <text x="200" y="140" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#162d1f" font-weight="700">Shubham</text>
+  <text x="200" y="172" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#b85c38">Trading Company</text>
+  <text x="200" y="205" text-anchor="middle" font-family="sans-serif" font-size="11" letter-spacing="3" fill="#7a7a6a">BULK · WHOLESALE · SINCE 2004</text>
+</svg>

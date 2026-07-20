@@ -1,0 +1,668 @@
+[
+  {
+    "slug": "sona-masuri-rice",
+    "name": "Sona Masuri Rice",
+    "category": "RICE",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "Medium-grain lightweight rice ideal for daily consumption",
+    "image": "sonamasuririce.jpg",
+    "order": 1
+  },
+  {
+    "slug": "basmati-rice",
+    "name": "Basmati Rice",
+    "category": "RICE",
+    "origin": "Haryana",
+    "shortDescription": "Long-grain aromatic premium rice for high-quality cooking",
+    "image": "basmatirice.jpg",
+    "order": 2
+  },
+  {
+    "slug": "govindbhog-rice",
+    "name": "Govindbhog Rice",
+    "category": "RICE",
+    "origin": "West Bengal",
+    "shortDescription": "Premium aromatic short-grain rice used in traditional dishes",
+    "image": "govindbhogrice.jpg",
+    "order": 3
+  },
+  {
+    "slug": "joha-rice",
+    "name": "Joha Rice",
+    "category": "RICE",
+    "origin": "Assam",
+    "shortDescription": "Aromatic small-grain specialty rice with unique fragrance",
+    "image": "joharice.jpg",
+    "order": 4
+  },
+  {
+    "slug": "black-rice-chakhao",
+    "name": "Black Rice (Chakhao)",
+    "category": "RICE",
+    "origin": "Assam",
+    "shortDescription": "Nutrient-rich antioxidant rice used in desserts and specialty cuisine",
+    "image": "blackricechakhao.jpg",
+    "order": 5
+  },
+  {
+    "slug": "sticky-rice",
+    "name": "Sticky Rice",
+    "category": "RICE",
+    "origin": "Arunachal Pradesh",
+    "shortDescription": "Glutinous rice widely used in tribal and northeastern cuisine",
+    "image": "stickyrice.jpg",
+    "order": 6
+  },
+  {
+    "slug": "sharbati-wheat",
+    "name": "Sharbati Wheat",
+    "category": "GRAINS",
+    "origin": "Madhya Pradesh",
+    "shortDescription": "Premium quality wheat known for softness and superior flour output",
+    "image": "sharbatiwheat.jpg",
+    "order": 7
+  },
+  {
+    "slug": "makki-maize",
+    "name": "Makki (Maize)",
+    "category": "GRAINS",
+    "origin": "Punjab",
+    "shortDescription": "Versatile maize grain used in flour and feed applications",
+    "image": "makkimaize.jpg",
+    "order": 8
+  },
+  {
+    "slug": "buckwheat",
+    "name": "Buckwheat",
+    "category": "GRAINS",
+    "origin": "Sikkim",
+    "shortDescription": "Gluten-free grain ideal for fasting and health-focused diets",
+    "image": "buckwheat.jpg",
+    "order": 9
+  },
+  {
+    "slug": "bajra-pearl-millet",
+    "name": "Bajra (Pearl Millet)",
+    "category": "MILLETS",
+    "origin": "Rajasthan",
+    "shortDescription": "High-fiber millet widely used in traditional Indian diets",
+    "image": "bajrapearlmillet.jpg",
+    "order": 10
+  },
+  {
+    "slug": "jowar-sorghum",
+    "name": "Jowar (Sorghum)",
+    "category": "MILLETS",
+    "origin": "Gujarat",
+    "shortDescription": "Nutritious grain used in flour for rotis and healthy meals",
+    "image": "jowarsorghum.jpg",
+    "order": 11
+  },
+  {
+    "slug": "finger-millet-ragi",
+    "name": "Finger Millet (Ragi)",
+    "category": "MILLETS",
+    "origin": "Arunachal Pradesh",
+    "shortDescription": "Calcium-rich millet used in porridges and health foods",
+    "image": "fingermilletragi.jpg",
+    "order": 12
+  },
+  {
+    "slug": "black-pepper-whole",
+    "name": "Black Pepper Whole",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "Premium-grade peppercorns with strong aroma and pungency",
+    "image": "blackpepperwhole.jpg",
+    "order": 13
+  },
+  {
+    "slug": "green-cardamom-whole",
+    "name": "Green Cardamom Whole",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "High oil-content aromatic pods used in premium cooking",
+    "image": "greencardamomwhole.jpg",
+    "order": 14
+  },
+  {
+    "slug": "cloves-whole",
+    "name": "Cloves Whole",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "Strong, aromatic dried flower buds for flavoring",
+    "image": "cloveswhole.jpg",
+    "order": 15
+  },
+  {
+    "slug": "cinnamon-sticks-dalchini",
+    "name": "Cinnamon Sticks (Dalchini)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "Natural bark curls with sweet-spicy flavor profile",
+    "image": "cinnamonsticksdalchini.jpg",
+    "order": 16
+  },
+  {
+    "slug": "star-anise",
+    "name": "Star Anise",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Arunachal Pradesh",
+    "shortDescription": "Star-shaped spice with distinctive licorice flavor",
+    "image": "staranise.jpg",
+    "order": 17
+  },
+  {
+    "slug": "mace-whole-javitri",
+    "name": "Mace (Whole Javitri)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "Delicate outer covering of nutmeg with warm aroma",
+    "image": "macewholejavitri.jpg",
+    "order": 18
+  },
+  {
+    "slug": "nutmeg-jaiphal",
+    "name": "Nutmeg (Jaiphal)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Kerala",
+    "shortDescription": "Whole spice used for rich and warm flavoring",
+    "image": "nutmegjaiphal.jpg",
+    "order": 19
+  },
+  {
+    "slug": "shahi-jeera",
+    "name": "Shahi Jeera",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Gujarat",
+    "shortDescription": "Dark, earthy seeds used in premium dishes",
+    "image": "shahijeera.jpg",
+    "order": 20
+  },
+  {
+    "slug": "saffron",
+    "name": "Saffron",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Jammu & Kashmir",
+    "shortDescription": "Highest grade premium spice with rich color and aroma",
+    "image": "saffron.jpg",
+    "order": 21
+  },
+  {
+    "slug": "bay-leaf-tej-patta",
+    "name": "Bay Leaf (Tej Patta)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Uttarakhand",
+    "shortDescription": "Aromatic leaves used in Indian cooking for depth of flavor",
+    "image": "bayleaftejpatta.jpg",
+    "order": 22
+  },
+  {
+    "slug": "dry-red-chilli-whole",
+    "name": "Dry Red Chilli Whole",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "Whole dried chillies used for tempering and spice blends",
+    "image": "dryredchilliwhole.jpg",
+    "order": 23
+  },
+  {
+    "slug": "fenugreek-seeds-methi",
+    "name": "Fenugreek Seeds (Methi)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Rajasthan",
+    "shortDescription": "Slightly bitter seeds used in seasoning and pickles",
+    "image": "fenugreekseedsmethi.jpg",
+    "order": 24
+  },
+  {
+    "slug": "mustard-seeds-rai",
+    "name": "Mustard Seeds (Rai)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Gujarat",
+    "shortDescription": "Pungent seeds used for tempering and oil extraction",
+    "image": "mustardseedsrai.jpg",
+    "order": 25
+  },
+  {
+    "slug": "fennel-seeds-saunf",
+    "name": "Fennel Seeds (Saunf)",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Rajasthan",
+    "shortDescription": "Sweet aromatic seeds used in cooking and mouth fresheners",
+    "image": "fennelseedssaunf.jpg",
+    "order": 26
+  },
+  {
+    "slug": "ajwain",
+    "name": "Ajwain",
+    "category": "WHOLE SPICES (SABUT MASALA)",
+    "origin": "Rajasthan",
+    "shortDescription": "Strong-flavored seeds used for digestive and culinary purposes",
+    "image": "ajwain.jpg",
+    "order": 27
+  },
+  {
+    "slug": "turmeric-powder",
+    "name": "Turmeric Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "Bright yellow spice with strong color and medicinal value",
+    "image": "turmericpowder.jpg",
+    "order": 28
+  },
+  {
+    "slug": "cumin-powder",
+    "name": "Cumin Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Rajasthan",
+    "shortDescription": "Earthy and warm spice used in Indian cuisine",
+    "image": "cuminpowder.jpg",
+    "order": 29
+  },
+  {
+    "slug": "coriander-powder",
+    "name": "Coriander Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Rajasthan",
+    "shortDescription": "Mild citrusy spice used as a base in curries",
+    "image": "corianderpowder.jpg",
+    "order": 30
+  },
+  {
+    "slug": "kashmiri-red-chilli-powder",
+    "name": "Kashmiri Red Chilli Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Kashmir",
+    "shortDescription": "Deep red color with mild heat",
+    "image": "kashmiriredchillipowder.jpg",
+    "order": 31
+  },
+  {
+    "slug": "guntur-red-chilli-powder",
+    "name": "Guntur Red Chilli Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "High-pungency chilli powder with strong heat",
+    "image": "gunturredchillipowder.jpg",
+    "order": 32
+  },
+  {
+    "slug": "javitri-powder",
+    "name": "Javitri Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Kerala",
+    "shortDescription": "Ground mace with subtle warm aroma",
+    "image": "javitripowder.jpg",
+    "order": 33
+  },
+  {
+    "slug": "dalchini-powder",
+    "name": "Dalchini Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Kerala",
+    "shortDescription": "Finely ground cinnamon for sweet and savory use",
+    "image": "dalchinipowder.jpg",
+    "order": 34
+  },
+  {
+    "slug": "black-pepper-powder",
+    "name": "Black Pepper Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Kerala",
+    "shortDescription": "Sharp and pungent ground spice",
+    "image": "blackpepperpowder.jpg",
+    "order": 35
+  },
+  {
+    "slug": "white-pepper-powder",
+    "name": "White Pepper Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Kerala",
+    "shortDescription": "Mild yet sharp pepper variant for refined dishes",
+    "image": "whitepepperpowder.jpg",
+    "order": 36
+  },
+  {
+    "slug": "garlic-powder",
+    "name": "Garlic Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Madhya Pradesh",
+    "shortDescription": "Dehydrated garlic used for seasoning",
+    "image": "garlicpowder.jpg",
+    "order": 37
+  },
+  {
+    "slug": "amchur-powder",
+    "name": "Amchur Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Punjab",
+    "shortDescription": "Tangy dried mango powder for sourness",
+    "image": "amchurpowder.jpg",
+    "order": 38
+  },
+  {
+    "slug": "anardana-powder",
+    "name": "Anardana Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Punjab",
+    "shortDescription": "Ground pomegranate seeds with tangy flavor",
+    "image": "anardanapowder.jpg",
+    "order": 39
+  },
+  {
+    "slug": "dry-ginger-powder-sonth",
+    "name": "Dry Ginger Powder (Sonth)",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Rajasthan",
+    "shortDescription": "Strong and zesty ginger flavoring",
+    "image": "drygingerpowdersonth.jpg",
+    "order": 40
+  },
+  {
+    "slug": "mustard-powder",
+    "name": "Mustard Powder",
+    "category": "GROUND SPICES & POWDERS",
+    "origin": "Gujarat",
+    "shortDescription": "Pungent powder used in sauces and seasoning",
+    "image": "mustardpowder.jpg",
+    "order": 41
+  },
+  {
+    "slug": "rajma",
+    "name": "Rajma",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Premium kidney beans used in rich gravies",
+    "image": "rajma.jpg",
+    "order": 42
+  },
+  {
+    "slug": "chola-kabuli-chickpeas",
+    "name": "Chola (Kabuli Chickpeas)",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Large white chickpeas for bulk cooking",
+    "image": "cholakabulichickpeas.jpg",
+    "order": 43
+  },
+  {
+    "slug": "desi-chana",
+    "name": "Desi Chana",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Whole brown chickpeas for traditional dishes",
+    "image": "desichana.jpg",
+    "order": 44
+  },
+  {
+    "slug": "arhar-toor-dal",
+    "name": "Arhar / Toor Dal",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Staple split pigeon pea used across India",
+    "image": "arhartoordal.jpg",
+    "order": 45
+  },
+  {
+    "slug": "chana-dal",
+    "name": "Chana Dal",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Split chickpeas used in multiple preparations",
+    "image": "chanadal.jpg",
+    "order": 46
+  },
+  {
+    "slug": "moong-dal",
+    "name": "Moong Dal",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Light and easily digestible split lentils",
+    "image": "moongdal.jpg",
+    "order": 47
+  },
+  {
+    "slug": "urad-dal",
+    "name": "Urad Dal",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Essential lentil for batter and dal preparations",
+    "image": "uraddal.jpg",
+    "order": 48
+  },
+  {
+    "slug": "moth-beans",
+    "name": "Moth Beans",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Protein-rich legume used in regional cuisine",
+    "image": "mothbeans.jpg",
+    "order": 49
+  },
+  {
+    "slug": "masoor-dal",
+    "name": "Masoor Dal",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Quick-cooking red lentils for daily meals",
+    "image": "masoordal.jpg",
+    "order": 50
+  },
+  {
+    "slug": "whole-masoor",
+    "name": "Whole Masoor",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Whole red lentils with earthy flavor",
+    "image": "wholemasoor.jpg",
+    "order": 51
+  },
+  {
+    "slug": "kala-chana",
+    "name": "Kala Chana",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Small dark chickpeas rich in protein",
+    "image": "kalachana.jpg",
+    "order": 52
+  },
+  {
+    "slug": "green-moong-whole",
+    "name": "Green Moong (Whole)",
+    "category": "PULSES & LEGUMES",
+    "origin": "Gujarat",
+    "shortDescription": "Whole green gram used for sprouts and cooking",
+    "image": "greenmoongwhole.jpg",
+    "order": 53
+  },
+  {
+    "slug": "watermelon-seeds-magaz",
+    "name": "Watermelon Seeds (Magaz)",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "Rajasthan",
+    "shortDescription": "Rich kernel seeds used in gravies",
+    "image": "watermelonseedsmagaz.jpg",
+    "order": 54
+  },
+  {
+    "slug": "chia-seeds",
+    "name": "Chia Seeds",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "Madhya Pradesh",
+    "shortDescription": "Nutrient-dense superfood seeds",
+    "image": "chiaseeds.jpg",
+    "order": 55
+  },
+  {
+    "slug": "sunflower-seeds",
+    "name": "Sunflower Seeds",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "Oil-rich seeds used for extraction and snacks",
+    "image": "sunflowerseeds.jpg",
+    "order": 56
+  },
+  {
+    "slug": "sesame-seeds",
+    "name": "Sesame Seeds",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "Gujarat",
+    "shortDescription": "High oil-content seeds for cooking and sweets",
+    "image": "sesameseeds.jpg",
+    "order": 57
+  },
+  {
+    "slug": "fox-nuts-makhana",
+    "name": "Fox Nuts (Makhana)",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "Bihar",
+    "shortDescription": "Puffed lotus seeds for snacks and fasting",
+    "image": "foxnutsmakhana.jpg",
+    "order": 58
+  },
+  {
+    "slug": "kalonji",
+    "name": "Kalonji",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "West Bengal",
+    "shortDescription": "Nigella seeds used in seasoning",
+    "image": "kalonji.jpg",
+    "order": 59
+  },
+  {
+    "slug": "radhuni",
+    "name": "Radhuni",
+    "category": "SEEDS & SUPERFOODS",
+    "origin": "West Bengal",
+    "shortDescription": "Strong aromatic seed used in Bengali cuisine",
+    "image": "radhuni.jpg",
+    "order": 60
+  },
+  {
+    "slug": "dried-oregano",
+    "name": "Dried Oregano",
+    "category": "DRIED HERBS & SEASONINGS",
+    "origin": "International",
+    "shortDescription": "Premium dried herb used in continental dishes",
+    "image": "driedoregano.jpg",
+    "order": 61
+  },
+  {
+    "slug": "dried-parsley",
+    "name": "Dried Parsley",
+    "category": "DRIED HERBS & SEASONINGS",
+    "origin": "International",
+    "shortDescription": "Mild herb used for garnishing and flavoring",
+    "image": "driedparsley.jpg",
+    "order": 62
+  },
+  {
+    "slug": "dried-basil",
+    "name": "Dried Basil",
+    "category": "DRIED HERBS & SEASONINGS",
+    "origin": "International",
+    "shortDescription": "Aromatic herb used in sauces and seasoning",
+    "image": "driedbasil.jpg",
+    "order": 63
+  },
+  {
+    "slug": "chili-flakes",
+    "name": "Chili Flakes",
+    "category": "DRIED HERBS & SEASONINGS",
+    "origin": "Andhra Pradesh",
+    "shortDescription": "Crushed red pepper for seasoning",
+    "image": "chiliflakes.jpg",
+    "order": 64
+  },
+  {
+    "slug": "bhut-jolokia-dried",
+    "name": "Bhut Jolokia (Dried)",
+    "category": "DRIED CHILLIES & REGIONAL SPECIALTIES",
+    "origin": "Assam",
+    "shortDescription": "Extremely hot ghost chilli variety",
+    "image": "bhutjolokiadried.jpg",
+    "order": 65
+  },
+  {
+    "slug": "mathania-red-chilli",
+    "name": "Mathania Red Chilli",
+    "category": "DRIED CHILLIES & REGIONAL SPECIALTIES",
+    "origin": "Rajasthan",
+    "shortDescription": "Famous Rajasthani chilli for color and flavor",
+    "image": "mathaniaredchilli.jpg",
+    "order": 66
+  },
+  {
+    "slug": "kokum-dried",
+    "name": "Kokum (Dried)",
+    "category": "DRIED CHILLIES & REGIONAL SPECIALTIES",
+    "origin": "Goa",
+    "shortDescription": "Natural souring agent for coastal cuisine",
+    "image": "kokumdried.jpg",
+    "order": 67
+  },
+  {
+    "slug": "ker-and-sangri",
+    "name": "Ker & Sangri",
+    "category": "DRIED CHILLIES & REGIONAL SPECIALTIES",
+    "origin": "Rajasthan",
+    "shortDescription": "Traditional desert ingredients used in Rajasthani dishes",
+    "image": "kersangri.jpg",
+    "order": 68
+  },
+  {
+    "slug": "raisins-kishmish",
+    "name": "Raisins (Kishmish)",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "Maharashtra",
+    "shortDescription": "Naturally sweet dried grapes for cooking and snacks",
+    "image": "raisinskishmish.jpg",
+    "order": 69
+  },
+  {
+    "slug": "figs-anjeer",
+    "name": "Figs (Anjeer)",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "Maharashtra",
+    "shortDescription": "Fiber-rich dried fruit with natural sweetness",
+    "image": "figsanjeer.jpg",
+    "order": 70
+  },
+  {
+    "slug": "cashew-nuts",
+    "name": "Cashew Nuts",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "Goa",
+    "shortDescription": "Premium nuts used in cooking and confectionery",
+    "image": "cashewnuts.jpg",
+    "order": 71
+  },
+  {
+    "slug": "almonds",
+    "name": "Almonds",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "California / Kashmir",
+    "shortDescription": "Nutrient-rich nuts for bulk consumption",
+    "image": "almonds.jpg",
+    "order": 72
+  },
+  {
+    "slug": "walnuts",
+    "name": "Walnuts",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "Kashmir",
+    "shortDescription": "Healthy fat-rich nuts used in premium cooking",
+    "image": "walnuts.jpg",
+    "order": 73
+  },
+  {
+    "slug": "pistachios",
+    "name": "Pistachios",
+    "category": "DRY FRUITS & NUTS",
+    "origin": "Iran / California",
+    "shortDescription": "Premium green nuts used in sweets and garnishing",
+    "image": "pistachios.jpg",
+    "order": 74
+  }
+]
