@@ -102,15 +102,24 @@ async function main() {
     },
   });
   const freeze = (sid) => ({ updateSheetProperties: { properties: { sheetId: sid, gridProperties: { frozenRowCount: 1 } }, fields: 'gridProperties.frozenRowCount' } });
+  const lastRow = rows.length + 1; // header + product rows (1-based)
+  // Checkboxes only on the actual product rows (cols J=featured, K=visible).
   const checkbox = (sid, colIdx) => ({
     setDataValidation: {
-      range: { sheetId: sid, startRowIndex: 1, startColumnIndex: colIdx, endColumnIndex: colIdx + 1 },
+      range: { sheetId: sid, startRowIndex: 1, endRowIndex: lastRow, startColumnIndex: colIdx, endColumnIndex: colIdx + 1 },
       rule: { condition: { type: 'BOOLEAN' }, strict: true },
+    },
+  });
+  // Remove any validation/formatting left on rows below the products.
+  const clearBelow = (sid) => ({
+    updateCells: {
+      range: { sheetId: sid, startRowIndex: lastRow, startColumnIndex: 0, endColumnIndex: 12 },
+      fields: 'userEnteredValue,dataValidation,userEnteredFormat',
     },
   });
   await j(await fetch(`${API}/${SHEET_ID}:batchUpdate`, {
     method: 'POST', headers: H,
-    body: JSON.stringify({ requests: [headerFmt(prodId), freeze(prodId), headerFmt(enqId), freeze(enqId), checkbox(prodId, 9), checkbox(prodId, 10)] }),
+    body: JSON.stringify({ requests: [headerFmt(prodId), freeze(prodId), headerFmt(enqId), freeze(enqId), clearBelow(prodId), checkbox(prodId, 9), checkbox(prodId, 10)] }),
   }));
 
   console.log(`✅ Sheet ready: ${products.length} products written to "Products", "Enquiries" tab prepared.`);
