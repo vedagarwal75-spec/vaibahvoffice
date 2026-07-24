@@ -152,6 +152,18 @@ export function breadcrumbLd(items: { name: string; path: string }[]) {
   };
 }
 
+export function faqLd(faqs: { q: string; a: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
+
 export function itemListLd(products: Product[], listName: string) {
   return {
     '@context': 'https://schema.org',

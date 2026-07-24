@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { SITE } from '@/lib/site';
 import { getCategoriesInUse } from '@/lib/products';
+import { BUYERS } from '@/lib/buyers';
 
 export async function Footer() {
   const categories = (await getCategoriesInUse()).slice(0, 6);
@@ -25,8 +26,20 @@ export async function Footer() {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/products">Product Catalogue</Link></li>
               <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/faq">FAQ</Link></li>
+              <li><Link href="/pan-india-delivery">Pan-India Delivery</Link></li>
+              <li><Link href="/locations/kolkata">Kolkata</Link></li>
               <li><Link href="/quote">Request a Quote</Link></li>
-              <li><Link href="/contact">Contact</Link></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h5>Who We Supply</h5>
+            <ul>
+              {BUYERS.map((b) => (
+                <li key={b.slug}>
+                  <Link href={`/buyers/${b.slug}`}>{b.name.split('—')[0].trim()}</Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="footer-col">
