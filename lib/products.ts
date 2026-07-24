@@ -1,55 +1,61 @@
-// Product data access — the single API the pages use to read products.
-// Reads from the Google Sheet (via Apps Script) with a bundled fallback.
+// Product + review data access — the API the pages use.
+// Reads from the Google Sheet with a bundled fallback.
 
 import { cache } from 'react';
-import type { Product } from './types';
-import { fetchProductsFromSheet, normaliseRow } from './sheet';
-import { categoryByKey, categorySlug, categoryTitle, CATEGORIES } from './categories';
+import type { Product, Review } from './types';
+import { fetchProductsFromSheet, fetchReviewsFromSheet, slugify } from './sheet';
+import { categoryByKey, categorySlug, categoryTitle, normaliseCategory, CATEGORIES } from './categories';
 import rawFallback from '@/data/products.json';
 
-/** Auto-derive a few sensible keywords when the Sheet hasn't set any. */
-function deriveKeywords(p: Product): string[] {
-  const base = p.name.replace(/\([^)]*\)/g, '').trim();
+// Built-in photo filename per product slug (used when the Sheet's Photo URL is blank).
+const BUILTIN_IMAGE = new Map<string, string>(
+  (rawFallback as any[])
+    .map((r) => [slugify(r.name), r._image] as [string, string])
+    .filter(([, f]) => Boolean(f)),
+);
+
+function generateLongDescription(p: Product): string {
   const cat = categoryTitle(p.category);
-  return Array.from(
-    new Set(
-      [
-        p.name,
-        base,
-        `${base} wholesale`,
-        `bulk ${base}`,
-        `${base} supplier`,
-        `wholesale ${cat.toLowerCase()}`,
-        p.origin && `${base} ${p.origin}`,
-      ].filter(Boolean) as string[],
-    ),
+  const alt = p.keywords.filter((k) => !/wholesale|bulk|supplier|india/i.test(k)).slice(0, 3);
+  const altLine = alt.length ? ` Also known as ${alt.join(', ')}.` : '';
+  return (
+    `${p.name} supplied in bulk and wholesale quantities by Shubham Trading Company, Kolkata.${altLine} ` +
+    `${p.shortDescription}. Sourced from ${p.origin || 'trusted origin regions'} and part of our ${cat} range, ` +
+    `it is available for reliable bulk supply to hotels, restaurants, caterers, hospitals, army & BSF canteens, ` +
+    `distributors and wholesalers across India. Contact us for current availability, grade specifications, ` +
+    `packaging options and competitive wholesale pricing.`
   );
 }
 
-const FALLBACK: Product[] = (rawFallback as any[]).map((r, i) => {
-  const p = normaliseRow(r, i);
-  if (p.keywords.length === 0) p.keywords = deriveKeywords(p);
-  if (!p.longDescription) {
-    p.longDescription =
-      `${p.name} supplied in bulk by ${''}Shubham Trading Company. ${p.shortDescription}. ` +
-      `Sourced from ${p.origin}, available for wholesale supply to HORECA, hospitals, canteens, ` +
-      `distributors and wholesalers across India. Contact us for current availability, ` +
-      `specifications and competitive bulk pricing.`;
+function finalise(p: Product): Product {
+  if (!p.image) {
+    const f = BUILTIN_IMAGE.get(p.slug);
+    if (f) p.image = `/images/products/${f}`;
   }
+  if (!p.longDescription) p.longDescription = generateLongDescription(p);
   return p;
-});
+}
 
-/** All products (Sheet first, else bundled fallback). Cached per request. */
+const FALLBACK: Product[] = (rawFallback as any[]).map((r) => finalise({
+  slug: slugify(r.name),
+  name: r.name,
+  category: normaliseCategory(r.category),
+  origin: r.origin || '',
+  shortDescription: r.description || r.shortDescription || '',
+  keywords: String(r.keywords || '').split(/[,;\n|]/).map((s: string) => s.trim()).filter(Boolean),
+  image: r.photoUrl || '',
+  featured: r.featured === undefined ? false : Boolean(r.featured),
+  visible: r.showOnWebsite === undefined ? true : Boolean(r.showOnWebsite),
+  longDescription: '',
+  packaging: 'Available in bulk (25kg / 50kg)',
+}));
+
 export const getAllProducts = cache(async (): Promise<Product[]> => {
   const fromSheet = await fetchProductsFromSheet();
-  const list = (fromSheet && fromSheet.length ? fromSheet : FALLBACK).map((p) => {
-    if (p.keywords.length === 0) p.keywords = deriveKeywords(p);
-    return p;
-  });
-  return list.sort((a, b) => a.order - b.order);
+  const list = fromSheet && fromSheet.length ? fromSheet.map(finalise) : FALLBACK;
+  return list;
 });
 
-/** Products marked visible — what the public catalogue shows. */
 export const getVisibleProducts = cache(async (): Promise<Product[]> => {
   return (await getAllProducts()).filter((p) => p.visible);
 });
@@ -57,25 +63,19 @@ export const getVisibleProducts = cache(async (): Promise<Product[]> => {
 export async function getProductBySlug(slug: string): Promise<Product | undefined> {
   return (await getVisibleProducts()).find((p) => p.slug === slug);
 }
-
 export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
   const all = await getVisibleProducts();
   const featured = all.filter((p) => p.featured);
   return (featured.length ? featured : all).slice(0, limit);
 }
-
 export async function getProductsByCategory(key: string): Promise<Product[]> {
-  return (await getVisibleProducts()).filter((p) => p.category === key);
+  const k = normaliseCategory(key);
+  return (await getVisibleProducts()).filter((p) => p.category === k);
 }
-
 export async function getRelatedProducts(p: Product, limit = 4): Promise<Product[]> {
-  const same = (await getVisibleProducts()).filter(
-    (x) => x.category === p.category && x.slug !== p.slug,
-  );
-  return same.slice(0, limit);
+  return (await getVisibleProducts()).filter((x) => x.category === p.category && x.slug !== p.slug).slice(0, limit);
 }
 
-/** Categories that actually contain visible products, in catalogue order. */
 export async function getCategoriesInUse() {
   const products = await getVisibleProducts();
   const keysInOrder: string[] = [];
@@ -83,15 +83,24 @@ export async function getCategoriesInUse() {
   return keysInOrder.map((key) => {
     const meta = categoryByKey(key);
     return {
-      key,
-      title: categoryTitle(key),
-      slug: categorySlug(key),
-      icon: meta?.icon ?? '•',
-      intro: meta?.intro ?? '',
-      keywords: meta?.keywords ?? [],
+      key, title: categoryTitle(key), slug: categorySlug(key),
+      icon: meta?.icon ?? '•', intro: meta?.intro ?? '', keywords: meta?.keywords ?? [],
       count: products.filter((p) => p.category === key).length,
     };
   });
+}
+
+// ── Reviews ──
+export const getApprovedReviews = cache(async (): Promise<Review[]> => {
+  const all = await fetchReviewsFromSheet();
+  return (all || []).filter((r) => r.approved && r.rating > 0);
+});
+
+export async function getReviewSummary(): Promise<{ average: number; count: number } | null> {
+  const reviews = await getApprovedReviews();
+  if (!reviews.length) return null;
+  const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+  return { average: Math.round(avg * 10) / 10, count: reviews.length };
 }
 
 export { CATEGORIES };

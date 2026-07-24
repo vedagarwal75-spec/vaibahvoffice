@@ -1,22 +1,28 @@
 // The contract between the Google Sheet columns and the app.
 
 export interface Product {
-  slug: string;
+  slug: string;            // auto-generated from name (not in the Sheet)
   name: string;
   category: string;
   origin: string;
   shortDescription: string;
-  /** Comma/line separated search terms, synonyms, regional names. */
   keywords: string[];
-  /** Longer SEO body copy for the product page. */
-  longDescription: string;
-  /** e.g. "Available in bulk (25kg / 50kg)". */
-  packaging: string;
-  /** A filename in /public/images/products OR a full https:// URL. */
+  /** Raw image value from the Sheet's "Photo URL" (filename, URL, or Drive link). */
   image: string;
-  featured: boolean;
-  visible: boolean;
-  order: number;
+  featured: boolean;       // "Feature on homepage" checkbox
+  visible: boolean;        // "Show on website" checkbox
+  /** Generated in code — not a Sheet column. */
+  longDescription: string;
+  packaging: string;
+}
+
+export interface Review {
+  name: string;
+  company?: string;
+  rating: number;          // 1..5
+  comment: string;
+  date?: string;
+  approved: boolean;
 }
 
 export interface Enquiry {

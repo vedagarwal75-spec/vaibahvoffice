@@ -1,19 +1,20 @@
 // ─────────────────────────────────────────────────────────────
 //  Backend: Google Sheet ("Shubham Trading Company — Website Data")
-//  accessed directly via a DEDICATED service account (separate from
-//  anything else). Reads the "Products" tab, appends to "Enquiries".
+//  read/written directly via a dedicated service account.
 //
-//  Required env vars (see .env.example):
-//    GOOGLE_SHEET_ID        – the spreadsheet id
-//    GOOGLE_CLIENT_EMAIL    – service-account email (shared as Editor)
-//    GOOGLE_PRIVATE_KEY     – service-account private key
+//  Tabs:
+//    Products  — Name | Category | Origin | Description | Photo URL |
+//                Keywords | Show on website | Feature on homepage
+//    Enquiries — Date | Type | Name | Company | Phone | Email |
+//                Volume | Product | Message | Reverted
+//    Reviews   — Date | Name | Company | Rating | Comment | Approved
 //
-//  If creds are missing, callers fall back to the bundled products.json
-//  so the site always renders during setup.
+//  Missing creds ⇒ callers fall back to bundled data/products.json.
 // ─────────────────────────────────────────────────────────────
 
 import { JWT } from 'google-auth-library';
-import type { Enquiry, Product } from './types';
+import type { Enquiry, Product, Review } from './types';
+import { normaliseCategory } from './categories';
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID || '';
 const CLIENT_EMAIL = process.env.GOOGLE_CLIENT_EMAIL || '';
@@ -21,42 +22,32 @@ const PRIVATE_KEY = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n')
 
 export const PRODUCTS_TAB = 'Products';
 export const ENQUIRIES_TAB = 'Enquiries';
-// Fixed column order for the Enquiries tab (see scripts/setup-sheet.js).
-export const ENQUIRY_HEADERS = [
-  'Timestamp', 'Type', 'Name', 'Company', 'Phone', 'Email',
-  'Volume', 'Product', 'Message', 'Rating', 'Source', 'Status',
-] as const;
+export const REVIEWS_TAB = 'Reviews';
 
-/** How long (seconds) Next.js may cache the product list before re-fetching. */
+export const ENQUIRY_HEADERS = ['Date', 'Type', 'Name', 'Company', 'Phone', 'Email', 'Volume', 'Product', 'Message', 'Reverted'] as const;
+export const REVIEW_HEADERS = ['Date', 'Name', 'Company', 'Rating', 'Comment', 'Approved'] as const;
+export const PRODUCT_HEADERS = ['Name', 'Category', 'Origin', 'Description', 'Photo URL', 'Keywords', 'Show on website', 'Feature on homepage'] as const;
+
 export const PRODUCTS_REVALIDATE = 300;
-
 export const BACKEND_CONFIGURED = Boolean(SHEET_ID && CLIENT_EMAIL && PRIVATE_KEY);
 
 let _client: JWT | null = null;
 function getClient(): JWT {
-  if (!_client) {
-    _client = new JWT({
-      email: CLIENT_EMAIL,
-      key: PRIVATE_KEY,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-  }
+  if (!_client) _client = new JWT({ email: CLIENT_EMAIL, key: PRIVATE_KEY, scopes: ['https://www.googleapis.com/auth/spreadsheets'] });
   return _client;
 }
-
 async function accessToken(): Promise<string> {
   const { token } = await getClient().getAccessToken();
   if (!token) throw new Error('No access token');
   return token;
 }
-
 const SHEETS_API = 'https://sheets.googleapis.com/v4/spreadsheets';
 
 // ── helpers ──
 function toBool(v: unknown): boolean {
   if (typeof v === 'boolean') return v;
   const s = String(v ?? '').trim().toLowerCase();
-  return s === 'true' || s === 'yes' || s === '1' || s === 'y';
+  return s === 'true' || s === 'yes' || s === '1' || s === 'y' || s === '✓';
 }
 function toKeywords(v: unknown): string[] {
   if (Array.isArray(v)) return v.map((x) => String(x).trim()).filter(Boolean);
@@ -65,90 +56,136 @@ function toKeywords(v: unknown): string[] {
 export function slugify(name: string): string {
   return name.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
+/** Case-insensitive header lookup. */
+function pick(obj: Record<string, unknown>, ...names: string[]): string {
+  for (const n of names) {
+    for (const k of Object.keys(obj)) {
+      if (k.trim().toLowerCase() === n.toLowerCase()) return String(obj[k] ?? '').trim();
+    }
+  }
+  return '';
+}
 
-/** Normalise one raw row (object keyed by sheet header) into a Product. */
-export function normaliseRow(row: Record<string, unknown>, i: number): Product {
-  const name = String(row.name ?? '').trim();
+export function normaliseRow(row: Record<string, unknown>): Product {
+  const name = pick(row, 'Name');
+  const showRaw = pick(row, 'Show on website', 'Show', 'Visible');
   return {
-    slug: String(row.slug ?? '').trim() || slugify(name),
+    slug: slugify(name),
     name,
-    category: String(row.category ?? '').trim(),
-    origin: String(row.origin ?? '').trim(),
-    shortDescription: String(row.shortDescription ?? row.desc ?? '').trim(),
-    keywords: toKeywords(row.keywords),
-    longDescription: String(row.longDescription ?? '').trim(),
-    packaging: String(row.packaging ?? '').trim() || 'Available in bulk (25kg / 50kg)',
-    image: String(row.image ?? '').trim(),
-    featured: toBool(row.featured),
-    visible: row.visible === undefined || String(row.visible).trim() === '' ? true : toBool(row.visible),
-    order: Number(row.order ?? i + 1) || i + 1,
+    category: normaliseCategory(pick(row, 'Category')),
+    origin: pick(row, 'Origin'),
+    shortDescription: pick(row, 'Description', 'shortDescription', 'desc'),
+    keywords: toKeywords(pick(row, 'Keywords')),
+    image: pick(row, 'Photo URL', 'photoUrl', 'image'),
+    featured: toBool(pick(row, 'Feature on homepage', 'featured')),
+    visible: showRaw === '' ? true : toBool(showRaw),
+    longDescription: '',
+    packaging: 'Available in bulk (25kg / 50kg)',
   };
 }
 
-/** Fetch products from the Sheet's "Products" tab. Returns null on any failure. */
-export async function fetchProductsFromSheet(): Promise<Product[] | null> {
+async function readRange(range: string): Promise<Record<string, unknown>[] | null> {
   if (!BACKEND_CONFIGURED) return null;
   try {
     const token = await accessToken();
-    const range = encodeURIComponent(`${PRODUCTS_TAB}!A1:Z2000`);
-    const res = await fetch(`${SHEETS_API}/${SHEET_ID}/values/${range}`, {
+    const res = await fetch(`${SHEETS_API}/${SHEET_ID}/values/${encodeURIComponent(range)}`, {
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: PRODUCTS_REVALIDATE },
     });
     if (!res.ok) return null;
-    const data = await res.json();
-    const values: string[][] = data.values || [];
-    if (values.length < 2) return null;
+    const values: string[][] = (await res.json()).values || [];
+    if (values.length < 2) return values.length === 1 ? [] : null;
     const headers = values[0].map((h) => String(h).trim());
-    const rows = values.slice(1).map((r) => {
+    return values.slice(1).map((r) => {
       const obj: Record<string, unknown> = {};
       headers.forEach((h, i) => (obj[h] = r[i]));
       return obj;
     });
-    return rows.map(normaliseRow).filter((p) => p.name);
   } catch (e) {
-    console.error('[sheet] fetchProducts failed:', (e as Error).message);
+    console.error('[sheet] read failed:', range, (e as Error).message);
     return null;
   }
 }
 
-/** Append an enquiry as a new row in the "Enquiries" tab. */
-export async function appendEnquiryToSheet(enquiry: Enquiry): Promise<boolean> {
+export async function fetchProductsFromSheet(): Promise<Product[] | null> {
+  const rows = await readRange(`${PRODUCTS_TAB}!A1:Z2000`);
+  if (!rows) return null;
+  return rows.map(normaliseRow).filter((p) => p.name);
+}
+
+export async function fetchReviewsFromSheet(): Promise<Review[] | null> {
+  const rows = await readRange(`${REVIEWS_TAB}!A1:Z1000`);
+  if (!rows) return null;
+  return rows
+    .map((r) => ({
+      date: pick(r, 'Date'),
+      name: pick(r, 'Name'),
+      company: pick(r, 'Company'),
+      rating: Number(pick(r, 'Rating')) || 0,
+      comment: pick(r, 'Comment', 'Comments', 'Message'),
+      approved: toBool(pick(r, 'Approved')),
+    }))
+    .filter((r) => r.name && r.comment);
+}
+
+let _sheetIds: Record<string, number> | null = null;
+async function sheetIds(token: string): Promise<Record<string, number>> {
+  if (_sheetIds) return _sheetIds;
+  const res = await fetch(`${SHEETS_API}/${SHEET_ID}?fields=sheets(properties(sheetId,title))`, { headers: { Authorization: `Bearer ${token}` } });
+  const data = await res.json();
+  _sheetIds = Object.fromEntries((data.sheets || []).map((s: any) => [s.properties.title, s.properties.sheetId]));
+  return _sheetIds!;
+}
+
+interface Validator { col: number; rule: object }
+
+/** Append a row and (optionally) attach data-validation to that new row only. */
+async function appendRow(tab: string, values: string[], validators: Validator[] = []): Promise<boolean> {
   if (!BACKEND_CONFIGURED) return false;
   try {
     const token = await accessToken();
-    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    const record: Record<string, string> = {
-      Timestamp: timestamp,
-      Type: enquiry.type,
-      Name: enquiry.name || '',
-      Company: enquiry.company || '',
-      Phone: enquiry.phone || '',
-      Email: enquiry.email || '',
-      Volume: enquiry.volume || '',
-      Product: enquiry.product || '',
-      Message: enquiry.message || '',
-      Rating: enquiry.rating || '',
-      Source: enquiry.source || '',
-      Status: 'New',
-    };
-    const row = ENQUIRY_HEADERS.map((h) => record[h] ?? '');
-    const range = encodeURIComponent(`${ENQUIRIES_TAB}!A1`);
     const res = await fetch(
-      `${SHEETS_API}/${SHEET_ID}/values/${range}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
-      {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ values: [row] }),
-      },
+      `${SHEETS_API}/${SHEET_ID}/values/${encodeURIComponent(`${tab}!A1`)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+      { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ values: [values] }) },
     );
-    if (!res.ok) {
-      console.error('[sheet] appendEnquiry failed:', res.status, await res.text());
-      return false;
+    if (!res.ok) { console.error('[sheet] append failed:', tab, res.status, await res.text()); return false; }
+
+    if (validators.length) {
+      const data = await res.json().catch(() => ({}));
+      const updated: string = data.updates?.updatedRange || '';
+      const rowMatch = updated.match(/![A-Z]+(\d+)/);
+      const row0 = rowMatch ? parseInt(rowMatch[1], 10) - 1 : null;
+      if (row0 != null) {
+        const sid = (await sheetIds(token))[tab];
+        const requests = validators.map((v) => ({
+          setDataValidation: { range: { sheetId: sid, startRowIndex: row0, endRowIndex: row0 + 1, startColumnIndex: v.col, endColumnIndex: v.col + 1 }, rule: v.rule },
+        }));
+        await fetch(`${SHEETS_API}/${SHEET_ID}:batchUpdate`, { method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ requests }) });
+      }
     }
     return true;
   } catch (e) {
-    console.error('[sheet] appendEnquiry error:', (e as Error).message);
+    console.error('[sheet] append error:', tab, (e as Error).message);
     return false;
   }
+}
+
+const nowIST = () => new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+const BOOLEAN_RULE = { condition: { type: 'BOOLEAN' }, strict: true };
+const RATING_RULE = { condition: { type: 'ONE_OF_LIST', values: ['1', '2', '3', '4', '5'].map((v) => ({ userEnteredValue: v })) }, showCustomUi: true, strict: false };
+
+export async function appendEnquiryToSheet(e: Enquiry): Promise<boolean> {
+  const row: Record<string, string> = {
+    Date: nowIST(), Type: e.type, Name: e.name || '', Company: e.company || '', Phone: e.phone || '',
+    Email: e.email || '', Volume: e.volume || '', Product: e.product || '', Message: e.message || '', Reverted: 'FALSE',
+  };
+  return appendRow(ENQUIRIES_TAB, ENQUIRY_HEADERS.map((h) => row[h] ?? ''), [{ col: 9, rule: BOOLEAN_RULE }]);
+}
+
+export async function appendReviewToSheet(e: Enquiry): Promise<boolean> {
+  const row: Record<string, string> = {
+    Date: nowIST(), Name: e.name || '', Company: e.company || '',
+    Rating: (e.rating || '').replace(/[^0-9]/g, '') || '5', Comment: e.message || '', Approved: 'FALSE',
+  };
+  return appendRow(REVIEWS_TAB, REVIEW_HEADERS.map((h) => row[h] ?? ''), [{ col: 3, rule: RATING_RULE }, { col: 5, rule: BOOLEAN_RULE }]);
 }

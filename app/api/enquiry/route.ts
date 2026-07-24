@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { appendEnquiryToSheet, BACKEND_CONFIGURED } from '@/lib/sheet';
+import { appendEnquiryToSheet, appendReviewToSheet, BACKEND_CONFIGURED } from '@/lib/sheet';
 import type { Enquiry } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -63,13 +63,20 @@ export async function POST(req: Request) {
     source: clean(body.source, 120),
   };
 
-  if (!enquiry.name && !enquiry.phone && !enquiry.email) {
-    return NextResponse.json({ ok: false, error: 'Missing contact details' }, { status: 400 });
+  if (type === 'Feedback') {
+    if (!enquiry.name || !enquiry.message) {
+      return NextResponse.json({ ok: false, error: 'Name and comment are required' }, { status: 400 });
+    }
+    const [logged, emailed] = await Promise.all([appendReviewToSheet(enquiry), sendEmail(enquiry)]);
+    return NextResponse.json({ ok: logged || emailed || !BACKEND_CONFIGURED, logged, emailed });
+  }
+
+  // Quote / Contact — only name + phone are required.
+  if (!enquiry.name || !enquiry.phone) {
+    return NextResponse.json({ ok: false, error: 'Name and mobile number are required' }, { status: 400 });
   }
 
   const [logged, emailed] = await Promise.all([appendEnquiryToSheet(enquiry), sendEmail(enquiry)]);
-
-  // Success if the enquiry reached at least one channel (or backend not yet set up).
   const ok = logged || emailed || !BACKEND_CONFIGURED;
   return NextResponse.json({ ok, logged, emailed });
 }

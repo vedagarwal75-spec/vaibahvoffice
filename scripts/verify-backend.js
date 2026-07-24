@@ -1,4 +1,5 @@
-/* One-off backend check: read Products, append+read+delete a test Enquiry. */
+/* Backend check for the new schema: read Products, write+read+delete a test
+ * Enquiry and a test Review. No emails are sent. Leaves the sheet clean. */
 const fs = require('fs');
 const path = require('path');
 const { JWT } = require('google-auth-library');
@@ -22,26 +23,25 @@ const API = 'https://sheets.googleapis.com/v4/spreadsheets';
   const { token } = await auth.getAccessToken();
   const H = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
   const j = async (r) => { const t = await r.text(); if (!r.ok) throw new Error(`${r.status} ${t}`); return t ? JSON.parse(t) : {}; };
-
-  // READ products
-  const pv = await j(await fetch(`${API}/${ID}/values/${encodeURIComponent('Products!A1:L2000')}`, { headers: H }));
-  const rows = pv.values || [];
-  console.log(`READ  Products: ${rows.length - 1} product rows (header: ${rows[0].slice(0, 5).join(', ')} …)`);
-  console.log(`      sample: ${rows[1][1]} | ${rows[1][2]} | ${rows[1][3]}`);
-
-  // WRITE a test enquiry
-  const testRow = [new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }), 'Quote', 'BACKEND TEST — safe to ignore', 'Test Co', '9999999999', 'test@example.com', '500 kg', 'Basmati Rice', 'Automated connectivity test', '', 'verify-script', 'New'];
-  const before = (await j(await fetch(`${API}/${ID}/values/${encodeURIComponent('Enquiries!A:A')}`, { headers: H }))).values?.length || 0;
-  await j(await fetch(`${API}/${ID}/values/${encodeURIComponent('Enquiries!A1')}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, { method: 'POST', headers: H, body: JSON.stringify({ values: [testRow] }) }));
-  const enq = await j(await fetch(`${API}/${ID}/values/${encodeURIComponent('Enquiries!A1:L1000')}`, { headers: H }));
-  const written = enq.values[enq.values.length - 1];
-  console.log(`WRITE Enquiries: appended row ${enq.values.length} -> [${written[1]}] ${written[2]} @ ${written[0]}`);
-
-  // DELETE the test row to keep the sheet clean
+  const read = async (range) => (await j(await fetch(`${API}/${ID}/values/${encodeURIComponent(range)}`, { headers: H }))).values || [];
+  const append = async (tab, row) => j(await fetch(`${API}/${ID}/values/${encodeURIComponent(tab + '!A1')}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`, { method: 'POST', headers: H, body: JSON.stringify({ values: [row] }) }));
   const meta = await j(await fetch(`${API}/${ID}?fields=sheets(properties(sheetId,title))`, { headers: H }));
-  const enqId = meta.sheets.find((s) => s.properties.title === 'Enquiries').properties.sheetId;
-  const rowIndex = enq.values.length - 1; // 0-based
-  await j(await fetch(`${API}/${ID}:batchUpdate`, { method: 'POST', headers: H, body: JSON.stringify({ requests: [{ deleteDimension: { range: { sheetId: enqId, dimension: 'ROWS', startIndex: rowIndex, endIndex: rowIndex + 1 } } }] }) }));
-  console.log('CLEAN Enquiries: test row deleted — sheet left clean.');
-  console.log('\n✅ Backend verified: products read + enquiries write both work with the dedicated service account.');
+  const sid = Object.fromEntries(meta.sheets.map((s) => [s.properties.title, s.properties.sheetId]));
+  const delRow = async (tab, idx0) => j(await fetch(`${API}/${ID}:batchUpdate`, { method: 'POST', headers: H, body: JSON.stringify({ requests: [{ deleteDimension: { range: { sheetId: sid[tab], dimension: 'ROWS', startIndex: idx0, endIndex: idx0 + 1 } } }] }) }));
+
+  const prod = await read('Products!A1:H2000');
+  console.log(`READ  Products: ${prod.length - 1} rows | headers: ${prod[0].join(' · ')}`);
+  console.log(`      sample: ${prod[1][0]} → category "${prod[1][1]}"`);
+
+  await (append('Enquiries', [new Date().toISOString(), 'Quote', 'BACKEND TEST', 'Test Co', '9999999999', '', '500 kg', 'Basmati Rice', 'ignore', 'FALSE']));
+  let enq = await read('Enquiries!A1:J1000');
+  console.log(`WRITE Enquiries: row ${enq.length} → [${enq[enq.length - 1][1]}] ${enq[enq.length - 1][2]}`);
+  await delRow('Enquiries', enq.length - 1);
+
+  await (append('Reviews', [new Date().toISOString(), 'BACKEND TEST', 'Test Co', '5', 'ignore', 'FALSE']));
+  let rev = await read('Reviews!A1:F1000');
+  console.log(`WRITE Reviews: row ${rev.length} → ${rev[rev.length - 1][1]} (${rev[rev.length - 1][3]}★)`);
+  await delRow('Reviews', rev.length - 1);
+
+  console.log('CLEAN test rows deleted.\n✅ New schema verified: Products read + Enquiries/Reviews write all work.');
 })().catch((e) => { console.error('VERIFY FAILED:', e.message); process.exit(1); });

@@ -112,6 +112,33 @@ export function productLd(p: Product) {
   };
 }
 
+export function reviewsLd(
+  summary: { average: number; count: number },
+  reviews: { name: string; rating: number; comment: string; date?: string; company?: string }[],
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE.url}/#organization`,
+    name: SITE.name,
+    url: SITE.url,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: summary.average,
+      reviewCount: summary.count,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    review: reviews.slice(0, 30).map((r) => ({
+      '@type': 'Review',
+      author: { '@type': 'Person', name: r.company ? `${r.name}, ${r.company}` : r.name },
+      reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+      reviewBody: r.comment,
+      ...(r.date ? { datePublished: r.date } : {}),
+    })),
+  };
+}
+
 export function breadcrumbLd(items: { name: string; path: string }[]) {
   return {
     '@context': 'https://schema.org',

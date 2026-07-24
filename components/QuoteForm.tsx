@@ -6,125 +6,108 @@ import { SITE } from '@/lib/site';
 export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
   const [form, setForm] = useState({
-    name: '',
-    company: '',
-    phone: '',
-    email: '',
-    volume: '',
-    message: initialProduct
-      ? `Hello, I would like a bulk quote for: ${initialProduct}.\n\nEstimated requirement: `
-      : '',
+    name: '', phone: '', company: '', email: '', volume: '',
+    message: initialProduct ? `I would like a bulk quote for: ${initialProduct}.\n\nEstimated requirement: ` : '',
   });
 
   const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }));
 
+  const waLink = () => {
+    const text = encodeURIComponent(
+      `Hello ${SITE.shortName}! I'd like a bulk quote.\n\n` +
+        `Name: ${form.name}\nPhone: ${form.phone}\n` +
+        `${form.company ? `Company: ${form.company}\n` : ''}` +
+        `${form.email ? `Email: ${form.email}\n` : ''}` +
+        `${form.volume ? `Volume: ${form.volume}\n` : ''}` +
+        `${initialProduct ? `Product: ${initialProduct}\n` : ''}` +
+        `${form.message ? `Requirement: ${form.message}` : ''}`,
+    );
+    return `${SITE.whatsappHref}?text=${text}`;
+  };
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('sending');
-
-    const payload = {
-      type: 'Quote' as const,
-      name: form.name,
-      company: form.company,
-      phone: form.phone,
-      email: form.email,
-      volume: form.volume,
-      product: initialProduct,
-      message: form.message,
-      source: 'Quote page',
-    };
-
-    // Record the enquiry in the Sheet + email relay.
     try {
-      await fetch('/api/enquiry', {
+      const res = await fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          type: 'Quote', name: form.name, phone: form.phone, company: form.company,
+          email: form.email, volume: form.volume, product: initialProduct,
+          message: form.message, source: 'Quote page',
+        }),
       });
-      setStatus('ok');
+      setStatus(res.ok ? 'ok' : 'err');
     } catch {
       setStatus('err');
     }
+  }
 
-    // Also open WhatsApp with the requirement pre-filled.
-    const waText = encodeURIComponent(
-      `Hello ${SITE.shortName}! I'd like a bulk quote.\n\n` +
-        `Name: ${form.name}\nCompany: ${form.company}\nPhone: ${form.phone}\n` +
-        `Email: ${form.email}\nVolume: ${form.volume}\n` +
-        `${initialProduct ? `Product: ${initialProduct}\n` : ''}` +
-        `Requirement: ${form.message}`,
+  if (status === 'ok') {
+    return (
+      <div className="form-wrapper" style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>✅</div>
+        <h2>Enquiry Received</h2>
+        <p style={{ maxWidth: 460, margin: '0.5rem auto 1.75rem' }}>
+          Thank you, {form.name.split(' ')[0] || 'there'}. Our team will get back to you shortly with
+          availability and pricing. Want a faster reply? Continue the conversation on WhatsApp.
+        </p>
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <a className="btn-primary" style={{ background: '#25D366' }} href={waLink()} target="_blank" rel="noopener">
+            Continue on WhatsApp
+          </a>
+          <button className="btn-outline" onClick={() => { setForm({ name: '', phone: '', company: '', email: '', volume: '', message: '' }); setStatus('idle'); }}>
+            Send Another
+          </button>
+        </div>
+      </div>
     );
-    window.open(`${SITE.whatsappHref}?text=${waText}`, '_blank', 'noopener');
-
-    if (status !== 'err') {
-      setForm({ name: '', company: '', phone: '', email: '', volume: '', message: '' });
-    }
   }
 
   return (
     <form className="form-wrapper" onSubmit={onSubmit}>
       <h2>Submit Your Requirement</h2>
-      <p>
-        Share your institutional details and we&rsquo;ll respond with availability, specifications and
-        competitive bulk pricing. Submitting also opens WhatsApp so you can reach us instantly.
-      </p>
+      <p>Share your details and we&rsquo;ll respond with availability, specifications and competitive bulk pricing. Only your name and mobile number are required.</p>
 
-      {status === 'ok' && (
-        <div className="form-status ok">
-          ✅ Thank you — your enquiry has been received. We&rsquo;ll be in touch shortly.
-        </div>
-      )}
       {status === 'err' && (
-        <div className="form-status err">
-          Your WhatsApp message is ready. If the email copy didn&rsquo;t send, please reach us on{' '}
-          {SITE.phone}.
-        </div>
+        <div className="form-status err">Something went wrong saving your enquiry. Please try again, or reach us directly on {SITE.phone}.</div>
       )}
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="q-name">Full Name</label>
+          <label htmlFor="q-name">Full Name <span style={{ color: 'var(--terra)' }}>*</span></label>
           <input id="q-name" value={form.name} onChange={update('name')} required />
         </div>
         <div className="form-group">
-          <label htmlFor="q-company">Company / Institution</label>
-          <input id="q-company" value={form.company} onChange={update('company')} required />
+          <label htmlFor="q-phone">Mobile Number <span style={{ color: 'var(--terra)' }}>*</span></label>
+          <input id="q-phone" type="tel" value={form.phone} onChange={update('phone')} required />
         </div>
       </div>
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="q-phone">Phone Number</label>
-          <input id="q-phone" type="tel" value={form.phone} onChange={update('phone')} required />
+          <label htmlFor="q-company">Company / Institution</label>
+          <input id="q-company" value={form.company} onChange={update('company')} />
         </div>
         <div className="form-group">
           <label htmlFor="q-email">Email Address</label>
-          <input id="q-email" type="email" value={form.email} onChange={update('email')} required />
+          <input id="q-email" type="email" value={form.email} onChange={update('email')} />
         </div>
       </div>
       <div className="form-group">
         <label htmlFor="q-volume">Estimated Monthly Volume (Kg / Tons)</label>
-        <input id="q-volume" value={form.volume} onChange={update('volume')} required />
+        <input id="q-volume" value={form.volume} onChange={update('volume')} placeholder="Optional" />
       </div>
       <div className="form-group">
         <label htmlFor="q-message">Message / Product Requirements</label>
-        <textarea
-          id="q-message"
-          placeholder="Specify products, grades, and delivery locations…"
-          value={form.message}
-          onChange={update('message')}
-          required
-        />
+        <textarea id="q-message" placeholder="Specify products, grades, and delivery locations…" value={form.message} onChange={update('message')} />
       </div>
-      <button
-        type="submit"
-        className="btn-primary"
-        style={{ width: '100%', justifyContent: 'center' }}
-        disabled={status === 'sending'}
-      >
-        {status === 'sending' ? 'Sending…' : 'Send via Email & WhatsApp'}
+      <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={status === 'sending'}>
+        {status === 'sending' ? 'Sending…' : 'Submit Enquiry'}
       </button>
-      <p className="form-note">Every enquiry is logged for our team — we typically reply within one business day.</p>
+      <p className="form-note">Prefer WhatsApp? Submit above and you&rsquo;ll get a one-tap WhatsApp option next.</p>
     </form>
   );
 }
