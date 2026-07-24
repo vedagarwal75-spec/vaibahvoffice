@@ -8,6 +8,7 @@ import { WhatsAppFloat } from '@/components/WhatsAppFloat';
 import { ScrollReveal } from '@/components/ScrollReveal';
 import { JsonLd } from '@/components/JsonLd';
 import { organizationLd, websiteLd, localBusinessLd } from '@/lib/seo';
+import { Analytics } from '@vercel/analytics/next';
 
 const display = Fraunces({
   subsets: ['latin'],
@@ -54,15 +55,28 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   category: 'Food & Beverage Wholesale',
   formatDetection: { telephone: true, address: true, email: true },
 };
 
-export const viewport = { themeColor: '#162d1f', width: 'device-width', initialScale: 1 };
+export const viewport = {
+  themeColor: '#162d1f',
+  width: 'device-width',
+  initialScale: 1,
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
@@ -74,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <WhatsAppFloat />
         <ScrollReveal />
+        <Analytics />
       </body>
     </html>
   );
