@@ -3,27 +3,27 @@
    Clean, modern, professional. Green + saffron on warm white.
    ═══════════════════════════════════════════════════════════ */
 :root {
-  /* neutrals */
+  /* neutrals — cool, clean, corporate */
   --paper: #ffffff;
-  --cream: #f8f6f0;
-  --cream-2: #f2eee3;
-  --sand: #eee8da;
-  --line: #e7e1d3;
+  --cream: #f4f6f5;
+  --cream-2: #e9efeb;
+  --sand: #e6ece8;
+  --line: #e1e7e3;
   /* brand green */
-  --green-900: #0c3324;
-  --green-800: #10422f;
-  --green-700: #14563c;
-  --green-600: #1c6b4a;
-  --green-500: #2f8a63;
-  --green-50: #eaf2ec;
-  /* accent saffron */
-  --saffron: #d98a2b;
-  --saffron-600: #c0761b;
-  --saffron-100: #f7ead2;
-  /* ink */
-  --ink: #23271f;
-  --ink-soft: #61675a;
-  --ink-faint: #8b9084;
+  --green-900: #0c3123;
+  --green-800: #0f3d2c;
+  --green-700: #134f39;
+  --green-600: #1b6446;
+  --green-500: #2c815c;
+  --green-50: #edf3f0;
+  /* accent — restrained gold (not bright orange) */
+  --saffron: #b9883a;
+  --saffron-600: #976c24;
+  --saffron-100: #f0e9d8;
+  /* ink — cool neutral */
+  --ink: #1e231f;
+  --ink-soft: #596058;
+  --ink-faint: #868d85;
   --white: #ffffff;
 
   --shadow-sm: 0 1px 2px rgba(16, 45, 31, 0.05), 0 1px 3px rgba(16, 45, 31, 0.05);
@@ -93,8 +93,8 @@ nav.site-nav.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 24px
 .nav-links { display: flex; align-items: center; gap: 0.25rem; }
 .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--ink-soft); padding: 0.5rem 0.9rem; border-radius: var(--radius); transition: all var(--transition); }
 .nav-links a:hover, .nav-links a.active { color: var(--green-800); background: var(--green-50); }
-.nav-cta { background: var(--saffron) !important; color: #3a2510 !important; font-weight: 700 !important; padding: 0.55rem 1.15rem !important; margin-left: 0.5rem; }
-.nav-cta:hover { background: var(--saffron-600) !important; color: #fff !important; }
+.nav-cta { background: var(--green-700) !important; color: #fff !important; font-weight: 600 !important; padding: 0.6rem 1.2rem !important; margin-left: 0.5rem; }
+.nav-cta:hover { background: var(--green-800) !important; color: #fff !important; }
 .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 40px; height: 40px; background: none; border: none; padding: 6px; }
 .hamburger span { display: block; width: 24px; height: 2px; background: var(--green-800); border-radius: 2px; transition: all 0.3s; }
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -110,7 +110,7 @@ nav.site-nav.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 24px
 
 /* ── HOME hero (light, editorial) ── */
 .hero { position: relative; min-height: 90vh; display: flex; align-items: center; overflow: hidden; background: var(--cream); padding: calc(var(--nav-h) + 2rem) 0 4rem; }
-.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 85% 20%, rgba(217, 138, 43, 0.1) 0%, transparent 60%), radial-gradient(ellipse 70% 80% at 5% 90%, rgba(47, 138, 99, 0.1) 0%, transparent 55%), linear-gradient(180deg, #faf8f3 0%, #f4f0e6 100%); }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 55% 65% at 88% 15%, rgba(185, 136, 58, 0.07) 0%, transparent 60%), radial-gradient(ellipse 65% 78% at 3% 95%, rgba(27, 100, 70, 0.08) 0%, transparent 55%), linear-gradient(180deg, #f7faf8 0%, #eef3f0 100%); }
 .hero-pattern { position: absolute; inset: 0; opacity: 0.5; background-image: radial-gradient(rgba(20, 86, 60, 0.05) 1px, transparent 1px); background-size: 26px 26px; -webkit-mask-image: linear-gradient(180deg, transparent, #000 40%); mask-image: linear-gradient(180deg, transparent, #000 40%); }
 .hero-circle { position: absolute; right: -120px; top: 50%; transform: translateY(-50%); width: min(50vw, 560px); height: min(50vw, 560px); border-radius: 50%; border: 1px solid rgba(20, 86, 60, 0.12); }
 .hero-circle::before { content: ''; position: absolute; inset: 46px; border-radius: 50%; border: 1px dashed rgba(217, 138, 43, 0.25); }
