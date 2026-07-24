@@ -48,11 +48,7 @@ export default async function HomePage() {
               <Link className="btn-primary" href="/products">
                 View Product Catalogue
               </Link>
-              <Link
-                className="btn-outline"
-                href="/quote"
-                style={{ borderColor: 'rgba(245,240,230,0.4)', color: 'var(--ivory)' }}
-              >
+              <Link className="btn-outline" href="/quote">
                 Request a Quote
               </Link>
             </div>

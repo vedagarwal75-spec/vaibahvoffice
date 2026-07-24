@@ -109,18 +109,16 @@ export default async function ProductPage({ params }: { params: { slug: string }
                 </a>
               </div>
 
-              {product.keywords.length > 0 && (
-                <div className="pd-keywords">
-                  <h4>Also searched as</h4>
-                  <div className="kw-row">
-                    {product.keywords.slice(0, 12).map((k) => (
-                      <span className="kw" key={k}>
-                        {k}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {(() => {
+                const aka = product.keywords.filter(
+                  (k) => !/wholesale|bulk|supplier|india/i.test(k) && !k.toLowerCase().includes(product.name.toLowerCase()),
+                ).slice(0, 6);
+                return aka.length ? (
+                  <p className="pd-aka">
+                    <strong>Also known as:</strong> {aka.join(', ')}
+                  </p>
+                ) : null;
+              })()}
             </div>
           </div>
         </div>

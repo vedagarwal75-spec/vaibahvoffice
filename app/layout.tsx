@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
+import { Fraunces, Inter } from 'next/font/google';
 import './globals.css';
 import { SITE } from '@/lib/site';
 import { Nav } from '@/components/Nav';
@@ -9,17 +9,17 @@ import { ScrollReveal } from '@/components/ScrollReveal';
 import { JsonLd } from '@/components/JsonLd';
 import { organizationLd, websiteLd, localBusinessLd } from '@/lib/seo';
 
-const cormorant = Cormorant_Garamond({
+const display = Fraunces({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  variable: '--font-display',
   display: 'swap',
 });
-const dmSans = DM_Sans({
+const sans = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-dmsans',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
   display: 'swap',
 });
 
@@ -64,7 +64,7 @@ export const viewport = { themeColor: '#162d1f', width: 'device-width', initialS
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
         <JsonLd data={organizationLd()} />
         <JsonLd data={websiteLd()} />

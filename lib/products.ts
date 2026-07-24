@@ -16,7 +16,9 @@ const BUILTIN_IMAGE = new Map<string, string>(
 
 function generateLongDescription(p: Product): string {
   const cat = categoryTitle(p.category);
-  const alt = p.keywords.filter((k) => !/wholesale|bulk|supplier|india/i.test(k)).slice(0, 3);
+  const alt = p.keywords
+    .filter((k) => !/wholesale|bulk|supplier|india/i.test(k) && !k.toLowerCase().includes(p.name.toLowerCase()))
+    .slice(0, 3);
   const altLine = alt.length ? ` Also known as ${alt.join(', ')}.` : '';
   return (
     `${p.name} supplied in bulk and wholesale quantities by Shubham Trading Company, Kolkata.${altLine} ` +
