@@ -27,16 +27,57 @@ export default function BuyersPage() {
       <section className="section ivory">
         <div className="container">
           <div className="card-grid">
-            {BUYERS.map((b) => (
-              <Link key={b.slug} href={`/buyers/${b.slug}`} className="why-card" style={{ display: 'block' }}>
-                <div className="why-icon">{b.points[0]?.icon || '📦'}</div>
-                <h4>{b.name}</h4>
-                <p>{b.metaDescription}</p>
-                <span style={{ color: 'var(--green-700)', fontWeight: 600, fontSize: '0.85rem', display: 'inline-block', marginTop: '0.75rem' }}>
-                  Learn more →
-                </span>
-              </Link>
-            ))}
+            {BUYERS.map((b) => {
+              // Named clients for this card — still gated by the SITE flags.
+              const allowed =
+                b.clientGroup === 'hospitality'
+                  ? SITE.publishHospitalityClients
+                  : b.clientGroup === 'defence'
+                  ? SITE.publishDefenceClients
+                  : false;
+              const names = b.clientGroup && allowed ? SITE.namedClients[b.clientGroup] : [];
+
+              return (
+                <Link key={b.slug} href={`/buyers/${b.slug}`} className="why-card" style={{ display: 'block' }}>
+                  <div className="why-icon">{b.points[0]?.icon || '📦'}</div>
+                  <h4>{b.name}</h4>
+                  <p>{b.metaDescription}</p>
+
+                  {names.length > 0 && (
+                    <div style={{ marginTop: '1rem', paddingTop: '0.9rem', borderTop: '1px solid var(--line)' }}>
+                      <span
+                        style={{
+                          display: 'block',
+                          fontSize: '0.65rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.14em',
+                          textTransform: 'uppercase',
+                          color: 'var(--saffron-600)',
+                          marginBottom: '0.45rem',
+                        }}
+                      >
+                        Our clients include
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-display)',
+                          fontSize: '1.05rem',
+                          fontWeight: 600,
+                          color: 'var(--green-800)',
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {names.join(' · ')}
+                      </span>
+                    </div>
+                  )}
+
+                  <span style={{ color: 'var(--green-700)', fontWeight: 600, fontSize: '0.85rem', display: 'inline-block', marginTop: '0.75rem' }}>
+                    Learn more →
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
