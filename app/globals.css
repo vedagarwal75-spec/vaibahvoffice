@@ -288,6 +288,20 @@ nav.site-nav.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 24px
 .info-block p, .info-block a { color: var(--ink-soft); font-size: 1rem; line-height: 1.6; }
 .info-block a:hover { color: var(--green-700); text-decoration: underline; }
 
+/* ── Credentials (GST / FSSAI / Udyam) ── */
+.cred-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+.cred-card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.75rem 1.5rem; transition: all var(--transition); }
+.cred-card:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.cred-icon { font-size: 1.75rem; display: block; margin-bottom: 0.75rem; }
+.cred-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--saffron-600); margin-bottom: 0.35rem; }
+.cred-value { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; color: var(--green-900); letter-spacing: 0.02em; word-break: break-all; }
+.cred-note { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.6; margin-top: 0.7rem; }
+
+/* ── Clients / trusted-by ── */
+.clients-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
+.client-pill { background: var(--paper); border: 1px solid var(--line); border-radius: 100px; padding: 0.7rem 1.35rem; font-size: 0.95rem; font-weight: 600; color: var(--green-800); box-shadow: var(--shadow-sm); }
+.client-note { text-align: center; color: var(--ink-faint); font-size: 0.85rem; margin-top: 1.5rem; }
+
 /* ── WhatsApp float ── */
 .wa-float { position: fixed; bottom: 1.75rem; right: 1.75rem; z-index: 900; width: 58px; height: 58px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 22px rgba(37, 211, 102, 0.45); transition: transform var(--transition); }
 .wa-float:hover { transform: scale(1.08); }

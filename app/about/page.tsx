@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { SITE } from '@/lib/site';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd } from '@/lib/seo';
+import { Credentials } from '@/components/Credentials';
 
 export const metadata: Metadata = {
   title: 'About Us — 20+ Years of Authentic Regional Sourcing',
@@ -93,6 +94,12 @@ export default function AboutPage() {
       </section>
 
       <section className="section ivory-dark">
+        <div className="container">
+          <Credentials />
+        </div>
+      </section>
+
+      <section className="section ivory">
         <div className="container">
           <div className="section-header" style={{ textAlign: 'left' }}>
             <span className="section-tag">What We Stand For</span>

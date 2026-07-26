@@ -63,7 +63,10 @@ export const metadata: Metadata = {
     },
   },
   category: 'Food & Beverage Wholesale',
-  formatDetection: { telephone: true, address: true, email: true },
+  // NOTE: do NOT set `formatDetection` here. Next.js renders the keys as
+  // `telephone=no, address=no, email=no`, which disables tap-to-call and
+  // email/address auto-detection on mobile. Omitting it keeps the default
+  // (auto-detection on), which is what we want for a B2B contact-led site.
 };
 
 export const viewport = {

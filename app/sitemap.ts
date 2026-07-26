@@ -2,6 +2,8 @@ import type { MetadataRoute } from 'next';
 import { SITE } from '@/lib/site';
 import { getVisibleProducts, getCategoriesInUse } from '@/lib/products';
 import { BUYERS } from '@/lib/buyers';
+import { LOCATIONS } from '@/lib/locations';
+import { GUIDES } from '@/lib/guides';
 
 export const revalidate = 3600;
 
@@ -14,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE.url}/products`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE.url}/buyers`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${SITE.url}/pan-india-delivery`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE.url}/locations/kolkata`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${SITE.url}/guides`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE.url}/faq`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE.url}/about`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${SITE.url}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
@@ -27,6 +29,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: now,
     changeFrequency: 'monthly',
     priority: 0.7,
+  }));
+
+  const guidePages: MetadataRoute.Sitemap = GUIDES.map((g) => ({
+    url: `${SITE.url}/guides/${g.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
+  const locationPages: MetadataRoute.Sitemap = LOCATIONS.map((l) => ({
+    url: `${SITE.url}/locations/${l.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly',
+    priority: l.isHeadOffice ? 0.8 : 0.6,
   }));
 
   const categoryPages: MetadataRoute.Sitemap = categories.map((c) => ({
@@ -43,5 +59,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...buyerPages, ...categoryPages, ...productPages];
+  return [...staticPages, ...buyerPages, ...guidePages, ...locationPages, ...categoryPages, ...productPages];
 }

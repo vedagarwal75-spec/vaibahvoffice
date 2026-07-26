@@ -4,6 +4,8 @@ import { getFeaturedProducts, getCategoriesInUse, getVisibleProducts } from '@/l
 import { ProductCard } from '@/components/ProductCard';
 import { PRODUCTS_REVALIDATE } from '@/lib/sheet';
 import { BUYERS } from '@/lib/buyers';
+import { Credentials } from '@/components/Credentials';
+import { Clients } from '@/components/Clients';
 
 export const revalidate = 300;
 
@@ -208,6 +210,20 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CLIENTS */}
+      <section className="section ivory-dark">
+        <div className="container">
+          <Clients />
+        </div>
+      </section>
+
+      {/* CREDENTIALS */}
+      <section className="section ivory">
+        <div className="container">
+          <Credentials />
         </div>
       </section>
 

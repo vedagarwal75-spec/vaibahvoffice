@@ -5,6 +5,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd } from '@/lib/seo';
 import { getCategoriesInUse } from '@/lib/products';
 import { BUYERS } from '@/lib/buyers';
+import { LOCATIONS } from '@/lib/locations';
 
 export const revalidate = 3600;
 
@@ -52,12 +53,21 @@ export default async function PanIndiaPage() {
             ))}
           </div>
 
-          <p style={{ color: 'var(--ink-soft)', maxWidth: 820, margin: '2.5rem 0 1rem', lineHeight: 1.8 }}>
+          <p style={{ color: 'var(--ink-soft)', maxWidth: 820, margin: '2.5rem 0 2rem', lineHeight: 1.8 }}>
             Dispatched from our Kolkata base, orders move by road freight through partners we&rsquo;ve worked with for years.
             Delivery timelines and freight are confirmed at the time of quoting, based on destination and order size.
-            For city-specific supply in our home market, see our{' '}
-            <Link href="/locations/kolkata" style={{ color: 'var(--green-700)', fontWeight: 600 }}>Kolkata page</Link>.
           </p>
+
+          <h3 style={{ marginBottom: '1.25rem' }}>Cities We Supply</h3>
+          <div className="cat-chip-grid">
+            {LOCATIONS.map((l) => (
+              <Link key={l.slug} href={`/locations/${l.slug}`} className="cat-chip">
+                <span className="icon">📍</span>
+                <h4>{l.city}</h4>
+                <span className="count">{l.region}</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

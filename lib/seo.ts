@@ -35,6 +35,19 @@ export function organizationLd() {
       areaServed: 'IN',
       availableLanguage: ['en', 'hi'],
     },
+    // Statutory registrations — verifiable trust signals for search engines.
+    taxID: SITE.credentials.find((c) => c.label === 'GST Number')?.value,
+    vatID: SITE.credentials.find((c) => c.label === 'GST Number')?.value,
+    identifier: SITE.credentials.map((c) => ({
+      '@type': 'PropertyValue',
+      name: c.label,
+      value: c.value,
+    })),
+    hasCredential: SITE.credentials.map((c) => ({
+      '@type': 'EducationalOccupationalCredential',
+      credentialCategory: c.label,
+      identifier: c.value,
+    })),
   };
 }
 

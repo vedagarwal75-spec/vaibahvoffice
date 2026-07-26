@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { SITE } from '@/lib/site';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd } from '@/lib/seo';
+import { Credentials } from '@/components/Credentials';
 
 export const metadata: Metadata = {
   title: 'Contact — Bulk & Wholesale Enquiries',
@@ -71,6 +72,12 @@ export default function ContactPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="section ivory-dark">
+        <div className="container">
+          <Credentials heading="Registered & Compliant" tag="Business Credentials" />
         </div>
       </section>
     </>

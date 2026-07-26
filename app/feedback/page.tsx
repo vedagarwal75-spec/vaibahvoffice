@@ -3,6 +3,7 @@ import { FeedbackForm } from '@/components/FeedbackForm';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd, reviewsLd } from '@/lib/seo';
 import { getApprovedReviews, getReviewSummary } from '@/lib/products';
+import { SITE } from '@/lib/site';
 
 export const revalidate = 300;
 
@@ -53,6 +54,30 @@ export default async function FeedbackPage() {
                   </h4>
                 </div>
               ))}
+            </div>
+          )}
+
+          {(SITE.googleReviewUrl || SITE.googleProfileUrl) && (
+            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+              <p style={{ color: 'var(--ink-soft)', marginBottom: '1rem' }}>
+                Worked with us? A public review helps other buyers find us.
+              </p>
+              {SITE.googleReviewUrl && (
+                <a className="btn-primary" href={SITE.googleReviewUrl} target="_blank" rel="noopener">
+                  ⭐ Rate us on Google
+                </a>
+              )}
+              {SITE.googleProfileUrl && (
+                <a
+                  className="btn-outline"
+                  href={SITE.googleProfileUrl}
+                  target="_blank"
+                  rel="noopener"
+                  style={{ marginLeft: '0.75rem' }}
+                >
+                  View our Google profile
+                </a>
+              )}
             </div>
           )}
 

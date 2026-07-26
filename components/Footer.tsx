@@ -26,9 +26,10 @@ export async function Footer() {
               <li><Link href="/">Home</Link></li>
               <li><Link href="/products">Product Catalogue</Link></li>
               <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/guides">Buying Guides</Link></li>
               <li><Link href="/faq">FAQ</Link></li>
               <li><Link href="/pan-india-delivery">Pan-India Delivery</Link></li>
-              <li><Link href="/locations/kolkata">Kolkata</Link></li>
+              <li><Link href="/locations/kolkata">Supplier in Kolkata</Link></li>
               <li><Link href="/quote">Request a Quote</Link></li>
             </ul>
           </div>
@@ -71,6 +72,23 @@ export async function Footer() {
             </ul>
           </div>
         </div>
+        <div
+          style={{
+            borderTop: '1px solid rgba(255,255,255,0.1)',
+            paddingTop: '1.5rem',
+            display: 'flex',
+            gap: '1.5rem',
+            flexWrap: 'wrap',
+          }}
+        >
+          {SITE.credentials.map((c) => (
+            <span key={c.label} style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)' }}>
+              <strong style={{ color: 'var(--saffron)', fontWeight: 600 }}>{c.label}:</strong>{' '}
+              {c.value}
+            </span>
+          ))}
+        </div>
+
         <div className="footer-bottom">
           <p>© {year} {SITE.name}. All rights reserved. B2B catalogue only — no retail sales.</p>
           <span>{SITE.address.locality}, {SITE.address.region}, {SITE.address.countryName}</span>
