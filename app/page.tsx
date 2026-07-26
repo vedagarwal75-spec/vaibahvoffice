@@ -6,6 +6,7 @@ import { PRODUCTS_REVALIDATE } from '@/lib/sheet';
 import { BUYERS } from '@/lib/buyers';
 import { Credentials } from '@/components/Credentials';
 import { Clients } from '@/components/Clients';
+import { ClientsStrip } from '@/components/ClientsStrip';
 
 export const revalidate = 300;
 
@@ -66,6 +67,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* TRUSTED BY — marquee client names, high on the page */}
+      <ClientsStrip />
 
       {/* INTRO STRIP */}
       <div className="intro-strip">
@@ -213,10 +217,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CLIENTS */}
+      {/* CLIENTS — segments only; the marquee names live in the strip up top */}
       <section className="section ivory-dark">
         <div className="container">
-          <Clients />
+          <Clients showNames={false} />
         </div>
       </section>
 

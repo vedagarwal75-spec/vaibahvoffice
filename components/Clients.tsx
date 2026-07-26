@@ -10,9 +10,9 @@ import { SITE } from '@/lib/site';
  * rather than named, unless `SITE.publishDefenceClients` is enabled with
  * written authorisation. See the notes in lib/site.ts.
  */
-export function Clients() {
-  const hospitality = SITE.publishHospitalityClients ? SITE.namedClients.hospitality : [];
-  const defence = SITE.publishDefenceClients ? SITE.namedClients.defence : [];
+export function Clients({ showNames = true }: { showNames?: boolean }) {
+  const hospitality = showNames && SITE.publishHospitalityClients ? SITE.namedClients.hospitality : [];
+  const defence = showNames && SITE.publishDefenceClients ? SITE.namedClients.defence : [];
   const named = [...hospitality, ...defence];
 
   return (
