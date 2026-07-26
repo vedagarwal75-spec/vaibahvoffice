@@ -297,20 +297,10 @@ nav.site-nav.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 24px
 .cred-value { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; color: var(--green-900); letter-spacing: 0.02em; word-break: break-all; }
 .cred-note { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.6; margin-top: 0.7rem; }
 
-/* ── Trusted-by strip (high on the homepage, under the hero) ── */
-.trusted-strip { background: var(--paper); border-bottom: 1px solid var(--line); padding: 2rem 0; }
-.trusted-inner { display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; justify-content: center; }
-.trusted-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); line-height: 1.6; text-align: right; flex-shrink: 0; }
-.trusted-names { display: flex; align-items: center; gap: 2.25rem; flex-wrap: wrap; justify-content: center; }
-.trusted-name { font-family: var(--font-display); font-size: 1.55rem; font-weight: 600; color: var(--green-800); letter-spacing: 0.01em; opacity: 0.88; transition: opacity var(--transition); }
-.trusted-name:hover { opacity: 1; }
-@media (max-width: 768px) {
-  .trusted-inner { gap: 1.25rem; }
-  .trusted-label { text-align: center; width: 100%; }
-  .trusted-label br { display: none; }
-  .trusted-names { gap: 1.25rem; }
-  .trusted-name { font-size: 1.2rem; }
-}
+/* ── Named clients block (used inside buyer pages) ── */
+.client-names { display: flex; flex-wrap: wrap; gap: 1rem 2.25rem; align-items: center; margin-top: 1rem; }
+.client-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 600; color: var(--green-800); letter-spacing: 0.01em; }
+@media (max-width: 768px) { .client-name { font-size: 1.2rem; } }
 
 /* ── Clients / trusted-by ── */
 .clients-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }

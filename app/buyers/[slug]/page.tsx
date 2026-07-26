@@ -67,6 +67,33 @@ export default async function BuyerPage({ params }: { params: { slug: string } }
             <p key={i} style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', lineHeight: 1.8, maxWidth: 820, marginBottom: '1rem' }}>{p}</p>
           ))}
 
+          {(() => {
+            // Named clients for this segment. Still gated by the SITE flags,
+            // so a group only renders once it has been approved.
+            const group = b.clientGroup;
+            const allowed =
+              group === 'hospitality'
+                ? SITE.publishHospitalityClients
+                : group === 'defence'
+                ? SITE.publishDefenceClients
+                : false;
+            const names = group && allowed ? SITE.namedClients[group] : [];
+            if (!names.length) return null;
+            return (
+              <div style={{ margin: '2rem 0 0', paddingTop: '1.75rem', borderTop: '1px solid var(--line)', maxWidth: 820 }}>
+                <span className="section-tag" style={{ marginBottom: '0.25rem' }}>Our clients include</span>
+                <div className="client-names">
+                  {names.map((n) => (
+                    <span className="client-name" key={n}>{n}</span>
+                  ))}
+                </div>
+                <p style={{ color: 'var(--ink-faint)', fontSize: '0.82rem', marginTop: '1rem' }}>
+                  All brand names and trademarks are the property of their respective owners.
+                </p>
+              </div>
+            );
+          })()}
+
           <div className="card-grid" style={{ margin: '2.5rem 0' }}>
             {b.points.map((pt) => (
               <div className="why-card" key={pt.title}>

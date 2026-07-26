@@ -14,6 +14,12 @@ export interface BuyerType {
   supplies: string[];     // category keys relevant to this buyer
   points: { icon: string; title: string; text: string }[];
   keywords: string[];
+  /**
+   * Which named-client group to surface on this page. Rendering is still
+   * gated by the SITE.publish*Clients flags, so a group listed here shows
+   * nothing until that flag is on. See lib/site.ts for the reasoning.
+   */
+  clientGroup?: 'hospitality' | 'defence';
 }
 
 export const BUYERS: BuyerType[] = [
@@ -41,6 +47,7 @@ export const BUYERS: BuyerType[] = [
       { icon: '🚚', title: 'Multi-outlet logistics', text: 'Coordinated dispatch to central kitchens, outlets or banquet venues across India.' },
     ],
     keywords: ['bulk spices supplier for hotels', 'restaurant raw material supplier', 'HORECA food supplier India', 'catering bulk ingredients supplier', 'hotel kitchen spice supplier Kolkata'],
+    clientGroup: 'hospitality',
   },
   {
     slug: 'hospitals-institutional',
