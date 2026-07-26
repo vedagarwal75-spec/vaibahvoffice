@@ -3,17 +3,17 @@ import { SITE } from '@/lib/site';
 /**
  * "Who we supply" social proof.
  *
- * By default this renders SEGMENT-level proof (five-star hotel chains, defence
- * canteens, hospitals …), which is accurate and needs no third-party consent.
+ * Hospitality clients are rendered as PLAIN TEXT names only — never logos
+ * (logos are copyrighted artwork on top of being trademarks).
  *
- * Named brands and defence insignia only render once
- * `SITE.publishNamedClients` is set to true — do that only with written
- * permission from each organisation. See the notes in lib/site.ts.
+ * Defence/paramilitary buyers are deliberately described at segment level
+ * rather than named, unless `SITE.publishDefenceClients` is enabled with
+ * written authorisation. See the notes in lib/site.ts.
  */
 export function Clients() {
-  const named = SITE.publishNamedClients
-    ? [...SITE.namedClients.hospitality, ...SITE.namedClients.defence]
-    : [];
+  const hospitality = SITE.publishHospitalityClients ? SITE.namedClients.hospitality : [];
+  const defence = SITE.publishDefenceClients ? SITE.namedClients.defence : [];
+  const named = [...hospitality, ...defence];
 
   return (
     <div>
@@ -21,19 +21,65 @@ export function Clients() {
         <span className="section-tag">Trusted Across India</span>
         <h2>Who We Supply</h2>
         <div className="divider" />
-        <p style={{ color: 'var(--ink-soft)', maxWidth: 640, margin: '0 auto' }}>
-          Two decades of supplying institutional kitchens, hospitality groups and
-          the trade — from five-star hotel chains to defence canteens.
+        <p style={{ color: 'var(--ink-soft)', maxWidth: 680, margin: '0 auto' }}>
+          Two decades of supplying institutional kitchens, hospitality groups and the
+          trade — from five-star hotel chains to hospitals, defence canteens and
+          regional distributors.
         </p>
       </div>
 
+      {named.length > 0 && (
+        <>
+          <p
+            style={{
+              textAlign: 'center',
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              color: 'var(--saffron-600)',
+              marginBottom: '1.1rem',
+            }}
+          >
+            Our clients include
+          </p>
+          <div className="clients-row" style={{ marginBottom: '2.25rem' }}>
+            {named.map((c) => (
+              <span className="client-pill client-pill--name" key={c}>
+                {c}
+              </span>
+            ))}
+          </div>
+        </>
+      )}
+
+      <p
+        style={{
+          textAlign: 'center',
+          fontSize: '0.75rem',
+          fontWeight: 700,
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color: 'var(--ink-faint)',
+          marginBottom: '1.1rem',
+        }}
+      >
+        Segments we serve
+      </p>
       <div className="clients-row">
-        {(named.length ? named : SITE.clientSegments).map((c) => (
+        {SITE.clientSegments.map((c) => (
           <span className="client-pill" key={c}>
             {c}
           </span>
         ))}
       </div>
+
+      {named.length > 0 && (
+        <p className="client-note">
+          Client names are used to describe our supply relationships. All brand names and
+          trademarks are the property of their respective owners.
+        </p>
+      )}
     </div>
   );
 }

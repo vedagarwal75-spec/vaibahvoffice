@@ -300,6 +300,9 @@ nav.site-nav.scrolled { border-bottom-color: var(--line); box-shadow: 0 6px 24px
 /* ── Clients / trusted-by ── */
 .clients-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
 .client-pill { background: var(--paper); border: 1px solid var(--line); border-radius: 100px; padding: 0.7rem 1.35rem; font-size: 0.95rem; font-weight: 600; color: var(--green-800); box-shadow: var(--shadow-sm); }
+/* Named marquee clients read larger and more confident than segment pills. */
+.client-pill--name { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; letter-spacing: 0.01em; color: var(--green-900); padding: 0.75rem 1.75rem; border-color: var(--sand); }
+.client-pill--name:hover { border-color: var(--saffron); }
 .client-note { text-align: center; color: var(--ink-faint); font-size: 0.85rem; margin-top: 1.5rem; }
 
 /* ── WhatsApp float ── */

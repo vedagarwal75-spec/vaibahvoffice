@@ -75,19 +75,25 @@ export const SITE = {
   // ── Clients ────────────────────────────────────────────────────────────
   // IMPORTANT — read before switching this on.
   //
-  // `publishNamedClients` is OFF by default and should stay off until written
-  // permission is in hand for EACH organisation named below:
-  //   • Hotel groups (ITC, Marriott, Hyatt, Taj, Westin, Oberoi) — their names
-  //     and logos are registered trademarks. Publishing them as clients implies
-  //     an endorsement / commercial relationship and normally needs sign-off
-  //     from each group's brand or legal team (many supply contracts forbid it).
-  //   • Defence & paramilitary (Indian Army, BSF, SSB) — in India the Emblems
-  //     and Names (Prevention of Improper Use) Act, 1950 restricts commercial
-  //     use of these names and insignia. Written authorisation is required.
+  // These flags control what is published, and the two groups carry very
+  // different risk — so they are switched separately.
   //
-  // Until then the site shows the honest, defensible segment-level statement
-  // below, which needs no third-party permission.
-  publishNamedClients: false,
+  //   publishHospitalityClients (ON, owner-approved)
+  //     Hotel groups are listed as PLAIN TEXT ONLY — never their logos, which
+  //     are copyrighted artwork as well as trademarks. Truthfully naming a
+  //     client is normal B2B practice; the binding constraint is any
+  //     publicity/confidentiality clause in the supply agreement, which the
+  //     business owner has confirmed.
+  //
+  //   publishDefenceClients (OFF — do not enable without written authorisation)
+  //     India's Emblems and Names (Prevention of Improper Use) Act, 1950
+  //     restricts commercial use of official insignia, and defence/government
+  //     supply contracts routinely bar using the engagement in advertising.
+  //     The site instead describes the buyer TYPE ("Army, BSF & paramilitary
+  //     canteens"), which is a factual segment statement, not a named
+  //     endorsement.
+  publishHospitalityClients: true,
+  publishDefenceClients: false,
   namedClients: {
     hospitality: ['ITC', 'Marriott', 'Hyatt', 'Taj', 'Westin', 'Oberoi'],
     defence: ['Indian Army', 'BSF', 'Sashastra Seema Bal (SSB)'],
