@@ -7,7 +7,7 @@ import { breadcrumbLd } from '@/lib/seo';
 export const metadata: Metadata = {
   title: 'Buying Guides — Bulk Food Raw Material Resources',
   description:
-    'Practical guides for bulk food buyers: the ordering process, packaging and MOQ, choosing rice varieties for commercial kitchens, spice sourcing by origin state, and storage & shelf-life.',
+    'Practical guides for bulk food buyers: the ordering process, packaging options, choosing rice varieties for commercial kitchens, spice sourcing by origin state, and storage & shelf-life.',
   alternates: { canonical: '/guides' },
 };
 

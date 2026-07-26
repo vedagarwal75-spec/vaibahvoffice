@@ -80,7 +80,7 @@ export function normaliseRow(row: Record<string, unknown>): Product {
     featured: toBool(pick(row, 'Feature on homepage', 'featured')),
     visible: showRaw === '' ? true : toBool(showRaw),
     longDescription: '',
-    packaging: 'Available in bulk (25kg / 50kg)',
+    packaging: 'Available in bulk quantities',
   };
 }
 

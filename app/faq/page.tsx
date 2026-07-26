@@ -5,15 +5,15 @@ import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd, faqLd } from '@/lib/seo';
 
 export const metadata: Metadata = {
-  title: 'FAQ — Bulk Ordering, MOQ, Packaging & Delivery',
+  title: 'FAQ — Bulk Ordering, Packaging & Delivery',
   description:
-    'Answers to common questions about buying bulk food raw materials from Shubham Trading Company — minimum order quantities, packaging, pan-India delivery, payment terms, samples and export supply.',
+    'Answers to common questions about buying bulk food raw materials from Shubham Trading Company — ordering, packaging, pan-India delivery, payment terms, samples and export supply.',
   alternates: { canonical: '/faq' },
 };
 
 const FAQS = [
-  { q: 'What is your minimum order quantity (MOQ)?', a: 'We are a bulk / wholesale supplier. Minimums typically start around 25kg–50kg per item, with jumbo bags and container loads available for larger volumes. Share your requirement and we will confirm the MOQ for your specific items.' },
-  { q: 'What packaging options do you offer?', a: 'Standard packing is in 25kg and 50kg sacks. For large institutional or export orders we also supply jumbo bags and container-load packing. Let us know your preference.' },
+  { q: 'What quantities do you supply?', a: 'We are a bulk / wholesale supplier serving institutional and trade buyers rather than retail customers. Quantities are confirmed against your specific requirement — share your item list and estimated monthly volume, and we will revert with what we can supply and at what price.' },
+  { q: 'What packaging options do you offer?', a: 'Most institutional supply goes out in standard bulk sacks, with jumbo bags and container-load packing available for very large or export orders. Tell us your storage and handling setup and we will recommend a format.' },
   { q: 'Do you deliver across India?', a: 'Yes. We dispatch pan-India through an established network of transporters and freight partners. Delivery timelines depend on the destination and order size — we confirm these when we quote.' },
   { q: 'Do you sell retail or small quantities?', a: 'No. Shubham Trading Company is a B2B bulk supplier serving HORECA, hospitals, canteens, distributors and wholesalers. We do not make retail sales.' },
   { q: 'Which products do you supply?', a: 'Rice, grains, millets, whole spices, ground spices & powders, pulses & dals, seeds & superfoods, dried herbs, dried chillies & regional specialities, and dry fruits & nuts — plus other daily-use commodities on request. Our inventory is not limited to the items shown in the catalogue.' },
@@ -34,7 +34,7 @@ export default function FaqPage() {
         <div className="container">
           <span className="section-tag">Bulk Buying, Answered</span>
           <h1>Frequently Asked <em>Questions</em></h1>
-          <p>MOQ, packaging, delivery, payment and export — the essentials for buying bulk food raw materials from us.</p>
+          <p>Ordering, packaging, delivery, payment and export — the essentials for buying bulk food raw materials from us.</p>
         </div>
       </section>
 

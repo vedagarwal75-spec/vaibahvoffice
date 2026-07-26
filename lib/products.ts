@@ -49,7 +49,7 @@ const FALLBACK: Product[] = (rawFallback as any[]).map((r) => finalise({
   featured: r.featured === undefined ? false : Boolean(r.featured),
   visible: r.showOnWebsite === undefined ? true : Boolean(r.showOnWebsite),
   longDescription: '',
-  packaging: 'Available in bulk (25kg / 50kg)',
+  packaging: 'Available in bulk quantities',
 }));
 
 export const getAllProducts = cache(async (): Promise<Product[]> => {

@@ -51,7 +51,7 @@ export const GUIDES: Guide[] = [
       {
         heading: '3. Order confirmation and packing',
         body: [
-          'Once the grade, volume, price and delivery point are agreed, the order is confirmed and packed. Standard bulk packing is 25kg or 50kg sacks; jumbo bags and container-load packing are used for very large institutional or export orders.',
+          'Once the grade, volume, price and delivery point are agreed, the order is confirmed and packed. Most institutional supply goes out in standard bulk sacks, with jumbo bags and container-load packing used for very large institutional or export orders.',
           'Tell us at this stage if your storage or handling constrains pack size — a hospital central store and a container-load export buyer need genuinely different packing.',
         ],
       },
@@ -69,51 +69,52 @@ export const GUIDES: Guide[] = [
       { q: 'Do bulk prices change between orders?', a: 'Yes — agricultural commodity prices move with harvest cycles and market rates. We confirm pricing at the time of each order.' },
     ],
     related: ['Rice', 'Pulses & Legumes'],
-    keywords: ['bulk ordering process', 'how to buy food raw material in bulk', 'wholesale ordering MOQ delivery', 'institutional food procurement process'],
+    keywords: ['bulk ordering process', 'how to buy food raw material in bulk', 'wholesale ordering and delivery', 'institutional food procurement process'],
   },
   {
-    slug: 'bulk-packaging-and-moq',
-    title: 'Bulk Packaging & MOQ Guide (25kg, 50kg and Jumbo Bags)',
-    metaTitle: 'Bulk Packaging & MOQ Guide — 25kg, 50kg, Jumbo Bags',
+    slug: 'bulk-packaging-options',
+    title: 'Bulk Packaging Options — Choosing the Right Format',
+    metaTitle: 'Bulk Packaging Options for Food Raw Materials',
     metaDescription:
-      'Packaging options and minimum order quantities for bulk food raw materials — 25kg and 50kg sacks, jumbo bags and container loads, and how to choose the right pack size for your kitchen or warehouse.',
+      'Packaging formats for bulk food raw materials — standard sacks, jumbo bags and container loads — and how to choose the right one for your kitchen, central store or warehouse.',
     summary:
-      'Pack size affects storage, handling, wastage and freight cost. Choosing badly is a recurring, invisible expense. Here is how to pick.',
+      'Pack format affects storage, handling, wastage and freight cost. Choosing badly is a recurring, invisible expense. Here is how to pick.',
     readingTime: '4 min read',
     icon: '📦',
     sections: [
       {
-        heading: 'Standard pack sizes',
-        body: ['Most bulk food raw materials move in a small number of standard formats:'],
+        heading: 'The common formats',
+        body: ['Bulk food raw materials move in a small number of standard formats:'],
         bullets: [
-          { term: '25kg sacks', text: 'The most common institutional format. Manageable for a single person to handle, fits standard kitchen storage, and reduces open-bag exposure for aromatic items like ground spices.' },
-          { term: '50kg sacks', text: 'The economical choice for high-turnover staples such as rice and dals in large kitchens, canteens and distributor warehouses. Lower packing cost per kilo, but needs proper handling.' },
-          { term: 'Jumbo bags', text: 'Used for very large institutional and export volumes, typically handled with equipment rather than by hand.' },
+          { term: 'Standard sacks', text: 'The everyday institutional format, sized to be handled without equipment. Suits kitchen storage and keeps open-bag exposure low for aromatic items like ground spices.' },
+          { term: 'Large sacks', text: 'The economical choice for high-turnover staples such as rice and dals in large kitchens, canteens and distributor warehouses — lower packing cost per kilo, but needs proper handling.' },
+          { term: 'Jumbo bags', text: 'For very large institutional and export volumes, typically moved with equipment rather than by hand.' },
           { term: 'Container loads', text: 'For export buyers, packed and documented for shipping.' },
         ],
       },
       {
-        heading: 'How to choose the right size',
+        heading: 'How to choose',
         body: [
-          'The rule of thumb is turnover: pick the largest pack you can consume before quality degrades. A 50kg sack of Sona Masuri in a campus kitchen turning over weekly is efficient. The same 50kg sack of ground garam masala in a small restaurant is a slow-motion loss — ground spices lose aroma steadily once opened.',
-          'As a rough guide, high-turnover staples (rice, common dals, wheat) suit 50kg. Aromatics and ground spices usually suit 25kg or smaller unless your consumption is genuinely high.',
+          'The rule of thumb is turnover: pick the largest pack you can consume before quality degrades. A large sack of Sona Masuri in a campus kitchen turning over weekly is efficient. The same sack of ground garam masala in a small restaurant is a slow-motion loss — ground spices lose aroma steadily once opened.',
+          'As a rough guide, high-turnover staples such as rice, common dals and wheat suit the largest format you can store properly. Aromatics and ground spices usually suit smaller packs unless your consumption is genuinely high.',
+          'Tell us your storage setup and how fast you get through an item, and we will recommend a format rather than defaulting you to the biggest one.',
         ],
       },
       {
-        heading: 'Minimum order quantities',
+        heading: 'Consolidate to cut freight',
         body: [
-          'We are a wholesale supplier, so minimums generally start around 25kg–50kg per item, with the practical minimum for an economical order being a consolidated load rather than a single sack.',
-          'Ordering several items together almost always improves your effective freight cost, because freight is driven by the consignment rather than the line item. Buyers who consolidate a monthly order across rice, dals and masalas pay meaningfully less per kilo delivered than those ordering one item at a time.',
+          'Ordering several items together almost always improves your effective freight cost, because freight is driven by the consignment rather than the line item.',
+          'Buyers who consolidate a monthly order across rice, dals and masalas pay meaningfully less per kilo delivered than those ordering one item at a time. If you are comparing suppliers, compare the delivered cost of a consolidated order rather than a single-item rate.',
         ],
       },
     ],
     faqs: [
-      { q: 'What is the minimum order quantity?', a: 'Minimums typically start around 25kg–50kg per item. For an economical delivered price, consolidating several items into one consignment is usually better than ordering a single sack.' },
-      { q: 'Can you supply in jumbo bags?', a: 'Yes — jumbo bags and container-load packing are available for large institutional and export orders.' },
+      { q: 'What packaging do you supply in?', a: 'Standard and large sacks for most institutional supply, with jumbo bags and container-load packing for very large or export orders. Tell us your storage and handling setup and we will recommend a format.' },
+      { q: 'What quantity do I need to order?', a: 'We are a bulk and wholesale supplier rather than a retail one. Quantities are confirmed against your specific requirement — share your item list and estimated monthly volume and we will revert with what works.' },
       { q: 'Can I mix different products in one order?', a: 'Yes, and we recommend it. Consolidating items into a single consignment reduces your effective freight cost per kilo.' },
     ],
     related: ['Rice', 'Ground Spices & Powders'],
-    keywords: ['bulk packaging options food', 'MOQ bulk food supplier India', '25kg 50kg sack wholesale', 'jumbo bag food packaging'],
+    keywords: ['bulk packaging options food', 'wholesale food packaging formats', 'jumbo bag food packaging', 'bulk sack packing supplier India'],
   },
   {
     slug: 'choosing-rice-for-commercial-kitchens',

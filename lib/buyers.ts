@@ -63,7 +63,7 @@ export const BUYERS: BuyerType[] = [
     points: [
       { icon: '🏥', title: 'Institution-ready supply', text: 'Bulk staples and spices in the volumes and cadence large kitchens need.' },
       { icon: '🌾', title: 'Wellness range', text: 'Ragi, jowar, bajra, pulses and superfood seeds for hospital and wellness menus.' },
-      { icon: '📦', title: 'Bulk packaging', text: 'Supplied in 25kg / 50kg sacks and jumbo bags to suit central stores.' },
+      { icon: '📦', title: 'Bulk packaging', text: 'Packed to suit central stores and institutional handling — tell us what works for your kitchen.' },
     ],
     keywords: ['hospital kitchen food supplier', 'institutional bulk rice pulses supplier', 'canteen raw material supplier India', 'bulk millets supplier for hospitals'],
   },
@@ -81,7 +81,7 @@ export const BUYERS: BuyerType[] = [
     ],
     needs: [
       { title: 'Large-volume reliability', text: 'High-volume staples supplied consistently to feed large numbers.' },
-      { title: 'Rugged packaging', text: 'Sturdy 25kg / 50kg sacks and jumbo bags built for transit and storage.' },
+      { title: 'Rugged packaging', text: 'Sturdy bulk packing built for long-haul transit and field storage.' },
       { title: 'Fast turnaround', text: 'WhatsApp-first coordination for urgent dispatch requirements.' },
     ],
     supplies: ['Rice', 'Grains', 'Pulses & Legumes', 'Whole Spices', 'Ground Spices & Powders'],
