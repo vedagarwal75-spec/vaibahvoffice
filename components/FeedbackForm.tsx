@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SITE } from '@/lib/site';
+import { sendClientEmail } from '@/lib/sendClientEmail';
 
 const RATINGS = [
   { value: '5 Stars', label: '⭐⭐⭐⭐⭐ — Excellent' },
@@ -18,8 +19,9 @@ export function FeedbackForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
-    try {
-      const res = await fetch('/api/enquiry', {
+
+    const [sheetOk] = await Promise.all([
+      fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -29,12 +31,16 @@ export function FeedbackForm() {
           message: form.message,
           source: 'Feedback page',
         }),
-      });
-      setStatus(res.ok ? 'ok' : 'err');
-      if (res.ok) setForm({ name: '', rating: RATINGS[0].value, message: '' });
-    } catch {
-      setStatus('err');
-    }
+      }).then((r) => r.ok).catch(() => false),
+      sendClientEmail(`New Client Feedback${form.name ? ` from ${form.name}` : ''}`, {
+        Name: form.name,
+        Rating: form.rating,
+        Comments: form.message,
+      }),
+    ]);
+
+    setStatus(sheetOk ? 'ok' : 'err');
+    if (sheetOk) setForm({ name: '', rating: RATINGS[0].value, message: '' });
   }
 
   return (

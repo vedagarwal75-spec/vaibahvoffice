@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { SITE } from '@/lib/site';
+import { sendClientEmail } from '@/lib/sendClientEmail';
 
 export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'err'>('idle');
@@ -30,8 +31,11 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim()) return;
     setStatus('sending');
-    try {
-      const res = await fetch('/api/enquiry', {
+
+    // Log to the Sheet (server) and email the team (Web3Forms, client-side)
+    // in parallel. Email must be client-side — Web3Forms blocks server calls.
+    const [sheetOk] = await Promise.all([
+      fetch('/api/enquiry', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -39,11 +43,19 @@ export function QuoteForm({ initialProduct = '' }: { initialProduct?: string }) 
           email: form.email, volume: form.volume, product: initialProduct,
           message: form.message, source: 'Quote page',
         }),
-      });
-      setStatus(res.ok ? 'ok' : 'err');
-    } catch {
-      setStatus('err');
-    }
+      }).then((r) => r.ok).catch(() => false),
+      sendClientEmail(`New Bulk Quote Request${form.company ? ` from ${form.company}` : ''}`, {
+        Name: form.name,
+        Phone: form.phone,
+        Company: form.company,
+        email: form.email, // Web3Forms uses this as the reply-to address
+        Volume: form.volume,
+        Product: initialProduct,
+        Requirement: form.message,
+      }),
+    ]);
+
+    setStatus(sheetOk ? 'ok' : 'err');
   }
 
   if (status === 'ok') {
